@@ -7,19 +7,19 @@ from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
-
 def register(request):
-    
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.save()
             login(request, user)
-            return redirect('home')
+            return redirect('solarapp:home')
     else:
         form = CustomUserCreationForm()
-        
-    return render(request, 'register.html',{'form': form})
+
+    return render(request, 'register.html', {'form': form})
+
 
 def home(request):      
     return render(request, "home.html")

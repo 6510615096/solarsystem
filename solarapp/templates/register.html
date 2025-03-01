@@ -13,8 +13,10 @@
         <h1>Solar Cell Maintenance System</h1>
         <div class="login-container">
             <h2>Register</h2>
-            <form action="{% url 'solarapp:home' %}" method="post">
+            <form action="{% url 'solarapp:register' %}" method="post">
                 {% csrf_token %}
+                {{ form.errors }}
+
                 <label for="id_username">E-mail:</label>
                 {{ form.username }}
 
@@ -23,9 +25,11 @@
                 <label for="id_last_name">Last Name:</label>
                 {{ form.last_name }}
 
+                {{ form.password1.errors }}
                 <label for="id_password1">Password:</label>
                 {{ form.password1 }}
 
+                {{ form.password2.errors }}
                 <label for="id_password2">Confirm Password:</label>
                 {{ form.password2 }}
                 <button type="submit">Register</button>
