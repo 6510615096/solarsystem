@@ -1,7 +1,12 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from solarapp import views
+
+app_name = "solarapp"
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(template_name='solarapp/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/solarapp/login/'), name='logout'),
+    path("",views.login_request, name="login"),
+    path("register/", views.register, name="register"),
+    path("home/", views.home , name="home"),
+    
 ]

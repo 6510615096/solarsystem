@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Solar Cell Maintenance System</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="background-div"></div>
+        <h1>Solar Cell Maintenance System</h1>
+        <div class="login-container">
+            <h2>Register</h2>
+            <form action="{% url 'solarapp:home' %}" method="post">
+                {% csrf_token %}
+                <label for="id_username">E-mail:</label>
+                {{ form.username }}
+
+                <label for="id_first_name">First Name:</label>
+                {{ form.first_name }}
+                <label for="id_last_name">Last Name:</label>
+                {{ form.last_name }}
+
+                <label for="id_password1">Password:</label>
+                {{ form.password1 }}
+
+                <label for="id_password2">Confirm Password:</label>
+                {{ form.password2 }}
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="{% url 'solarapp:login' %}">Login</a></p>
+        </div>
+    </div>
+</body>
+
+</html>
