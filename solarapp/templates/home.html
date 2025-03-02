@@ -4,11 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
 </head>
 
 <body>
-    Welcome
+    <div class="container">
+        <div class="top-bar">
+            <button class="home-button">
+                <span class="material-symbols-outlined">home</span>
+                <p>home</p>
+            </button>
+
+            <button class="role-button">
+                <span class="material-symbols-outlined">edit</span>
+                <p>role management</p>
+            </button>
+
+            <button class="user-button">
+                <span class="material-symbols-outlined">account_circle</span>
+                <p>name surname</p>
+            </button>
+        </div>
+
+        <div class="welcome-bar">
+            <div class="welcome-message">
+                Welcome user, here are your tasks for today!
+            </div>
+            <div class="sort-filter-search">
+                <button class="sort-button">
+                    sort
+                </button>
+                <button class="filter-button">
+                    <p>filter</p>
+                    <span class="material-symbols-outlined">filter_alt</span>
+                </button>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="search a solar plant">
+                    <!-- <button class="search-button">Search</button> -->
+                </div>
+            </div>
+            
+        </div>
+        
+        
+    </div>
+
 </body>
 
 </html>
