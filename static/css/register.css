@@ -41,7 +41,7 @@ body::before {
 }
 
 input, button {
-    pointer-events: auto; /* ทำให้สามารถคลิกได้ */
+    pointer-events: auto; 
     z-index: 1;
 }
 
@@ -52,7 +52,6 @@ input, button {
     margin-bottom: 30px;
 }
 
-/* Form */
 .register-form {
     display: flex;
     flex-direction: column;
@@ -138,7 +137,7 @@ input {
     background: #FFFACD;
     color: #324A32;
     border-radius: 50px;
-    text-decoration: none; /* ลบขีดเส้นใต้ */
+    text-decoration: none; 
     border: none;
     cursor: pointer;
 }
