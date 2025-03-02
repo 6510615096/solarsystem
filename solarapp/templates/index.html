@@ -14,6 +14,16 @@
 </head>
 
 <body>
+    {% if messages %}
+    <div class="popup-overlay">
+        <div class="popup-box">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+    {% endif %}
     <div class="container">
         <!-- <div class="background-div"></div> -->
         <h1>Solar Cell Maintenance System</h1>
@@ -44,6 +54,12 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function closePopup() {
+            document.querySelector('.popup-overlay').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

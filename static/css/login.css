@@ -122,3 +122,46 @@ a.btn.btn-danger:hover {
 .register-link a:hover {
     text-decoration: underline;
 }
+
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    font-size: 30px;
+    font-weight: bold;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    color: #D9534F; 
+}
+
+.popup-box button {
+    background-color: #547D54;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.2s;
+}
+
+.popup-box button:hover {
+    background-color: #3d5f3d; /* เข้มขึ้นเวลาชี้ */
+}
+
