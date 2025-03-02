@@ -8,12 +8,14 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
-        <div class="background-div"></div>
+        <!-- <div class="background-div"></div> -->
         <h1>Solar Cell Maintenance System</h1>
         <div class="login-container">
             <form method="post">
@@ -21,16 +23,24 @@
                 <div class="input-group">
                     <label for="id_username">E-mail:</label>
                     {{ form.username }}
-
+                </div>
+                <div class="input-group">
                     <label for="id_password">Password:</label>
                     {{ form.password }}
 
                 </div>
-                <button type="submit">Log in</button>
-                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-danger">
-                    <i class="fab fa-google"></i> Sign in with Google
-                </a>
-                <a href="{% url 'solarapp:register' %}">or Create an account</a>
+
+                <button type="submit" class="login-btn">Log in</button>
+            
+                <div class="google-login">
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-danger">
+                        <img src="{% static 'images/googleicon.svg' %}" alt="Google Logo" class="google-logo">Log in with Google
+
+                    </a>
+                </div>
+                <div class = "register-link">
+                    <a href="{% url 'solarapp:register' %}">or Create an account</a>
+                </div>
             </form>
         </div>
     </div>
