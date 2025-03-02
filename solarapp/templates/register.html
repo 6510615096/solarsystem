@@ -1,44 +1,66 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to Solar Cell Maintenance System</title>
-    {% load static %}
-
+    <title>Register - Solar Cell Maintenance System</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <div class="background-div"></div>
-        <h1>Solar Cell Maintenance System</h1>
-        <div class="login-container">
-            <h2>Register</h2>
-            <form action="{% url 'solarapp:register' %}" method="post">
+    <div class="background-image">
+        <h1 class="register-title">Register</h1>
+        <div class="register-container">
+            
+            <form class="register-form" action="{% url 'solarapp:register' %}" method="post">
                 {% csrf_token %}
                 {{ form.errors }}
-
-                <label for="id_username">E-mail:</label>
-                {{ form.username }}
-
-                <label for="id_first_name">First Name:</label>
-                {{ form.first_name }}
-                <label for="id_last_name">Last Name:</label>
-                {{ form.last_name }}
-
+                
+                <div class="input-group name-container">
+                    <div>
+                        <label for="first_name">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div>
+                        <label for="last_name">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+            
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    {{ form.username }}
+                </div>
+                
                 {{ form.password1.errors }}
-                <label for="id_password1">Password:</label>
-                {{ form.password1 }}
-
+                <div class="input-group">
+                    <label for="password1">Password</label>
+                    {{ form.password1 }}
+                </div>
+                
                 {{ form.password2.errors }}
-                <label for="id_password2">Confirm Password:</label>
-                {{ form.password2 }}
-                <button type="submit">Register</button>
+                <div class="input-group">
+                    <label for="password2">Confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+            
+                <div class="button-group">
+                    <button type="submit" class="register-button">Create an account</button>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" class="google-signup-button">
+                        <img src="/static/images/google.png" alt="Google" width="24">
+                        Sign up with Google
+                    </a>
+                </div>
+                
             </form>
-            <p>Already have an account? <a href="{% url 'solarapp:login' %}">Login</a></p>
+            
+            <p class="or-login">Already have an account? <a href="{% url 'solarapp:login' %}">Login</a></p>
         </div>
-    </div>
+</div>
+
 </body>
 
 </html>
