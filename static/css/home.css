@@ -18,7 +18,9 @@ body {
 }
 
 /* top bar button */
-.home-button, .role-button, .user-button {
+.home-button,
+.role-button,
+.user-button {
     display: inline-flex;
     align-items: center;
     padding: 0px 20px;
@@ -34,21 +36,29 @@ body {
     margin-right: 50px;
 }
 
-.home-button p, .role-button p, .user-button p {
+.home-button p,
+.role-button p,
+.user-button p {
     font-size: 16;
     color: #ffffff;
     font-family: inherit;
 }
 
-.home-button:hover, .role-button:hover, .user-button:hover {
+.home-button:hover,
+.role-button:hover,
+.user-button:hover {
     background-color: #388E3C;
 }
 
-.home-button:active, .role-button:active, .user-button:active {
+.home-button:active,
+.role-button:active,
+.user-button:active {
     background-color: #DCCE52;
 }
 
-.home-button .material-symbols-outlined, .role-button .material-symbols-outlined, .user-button .material-symbols-outlined {
+.home-button .material-symbols-outlined,
+.role-button .material-symbols-outlined,
+.user-button .material-symbols-outlined {
     margin-right: 10px;
 }
 
@@ -76,7 +86,8 @@ body {
     margin-top: 5px;
 }
 
-.sort-button, .filter-button {
+.sort-button,
+.filter-button {
     margin-top: 20px;
     background-color: #8CD58C;
     display: inline-flex;
@@ -92,11 +103,13 @@ body {
     transition: background 0.3s;
 }
 
-.sort-button:hover, .filter-button:hover {
+.sort-button:hover,
+.filter-button:hover {
     background-color: #388E3C;
 }
 
-.sort-button:active, .filter-button:active {
+.sort-button:active,
+.filter-button:active {
     background-color: #FFF6A9;
     color: #000000;
 }
@@ -121,6 +134,7 @@ body {
 .search-input:focus {
     border-color: #388E3C;
 }
+
 /*.search-button {
     padding: 10px 20px;
     background-color: #4CAF50;

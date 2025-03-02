@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,26 +9,28 @@
     <title>Profile</title>
 
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Profile of {{ user.username }}</h2>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>First Name:</strong> {{ user.first_name|default:"-" }}</p>
-    <p><strong>Last Name:</strong> {{ user.last_name|default:"-" }}</p>
+    <div class="container">
+        <h2>Profile of {{ user.username }}</h2>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>First Name:</strong> {{ user.first_name|default:"-" }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name|default:"-" }}</p>
 
-    <h3>Your Roles</h3>
-    <ul class="role-list">
-        {% for role in user.profile.roles.all %}
+        <h3>Your Roles</h3>
+        <ul class="role-list">
+            {% for role in user.profile.roles.all %}
             <li>{{ role.name }}</li>
-        {% empty %}
+            {% empty %}
             <li>No roles assigned</li>
-        {% endfor %}
-    </ul>
-    
+            {% endfor %}
+        </ul>
 
-    <a href="{% url 'solarapp:home' %}" class="btn">Back to Home</a>
-</div>
+
+        <a href="{% url 'solarapp:home' %}" class="btn">Back to Home</a>
+    </div>
 
 </body>
+
 </html>

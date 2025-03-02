@@ -33,9 +33,11 @@ def login_request(request):
                 if user.is_active:
                     login(request, user)
                     
+                    """
                     if not hasattr(user, 'profile') or not user.profile.role:
                         messages.warning(request, "Waiting for account approval by admin")
                         return redirect('solarapp:login')
+                    """
                     return redirect('solarapp:home')
                 else:
                     messages.error(request, "Your account is awaiting approval. Please contact an administrator.")
@@ -45,5 +47,6 @@ def login_request(request):
         form = AuthenticationForm()
     return render(request, 'index.html', {'form': form})
 
-
+def profile_view(request):
+    return render(request, 'profile.html', {'user': request.user})
 

@@ -10,7 +10,9 @@
     </button>
 
     <button class="user-button">
-        <span class="material-symbols-outlined">account_circle</span>
-        <p>name surname</p>
+        <a href="{% url 'solarapp:profile' %}" class="user-button" style="text-decoration: none">
+            <span class="material-symbols-outlined">account_circle</span>
+            <p>{{ user.get_full_name }}</p>
+        </a>
     </button>
 </div>
