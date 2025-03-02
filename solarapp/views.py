@@ -13,7 +13,7 @@ def register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('solarapp:home')
     else:
         form = CustomUserCreationForm()
