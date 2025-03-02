@@ -17,15 +17,22 @@ class UserProfileInline(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
-    list_display = ('username', 'first_name', 'last_name', 'get_roles', 'is_staff')
+    list_display = ('username', 'first_name', 'last_name', 'get_roles', 'is_active', 'is_staff')
+    list_filter = ('is_active',)
+    actions = ['activate_users']
     
     def get_roles(self, obj):
         try:
-            return obj.profile.get_roles_display()
+            return  obj.profile.get_roles_display()
         except UserProfile.DoesNotExist:
             return 'No Profile'
     
     get_roles.short_description = 'Roles'
+    
+    def activate_users(self, request, queryset):
+        queryset.update(is_active=True)
+        self.message_user(request, f"Successfully activated {queryset.count()} users.")
+    activate_users.short_description = "Activate selected users"
 
 
 admin.site.unregister(User)

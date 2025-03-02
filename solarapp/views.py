@@ -6,23 +6,21 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
-
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('solarapp:home')
+            form.save()
+            messages.success(request, "Your account has been created but is pending approval. An administrator will review your account and assign appropriate roles before you can log in.")
+            return redirect('solarapp:login')  
     else:
         form = CustomUserCreationForm()
 
     return render(request, 'register.html', {'form': form})
 
-
 def home(request):      
     return render(request, "home.html")
+
 
 def login_request(request):
     if request.method == 'POST':
@@ -32,8 +30,11 @@ def login_request(request):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                return redirect('solarapp:home')
+                if user.is_active:
+                    login(request, user)
+                    return redirect('solarapp:home')
+                else:
+                    messages.error(request, "Your account is awaiting approval. Please contact an administrator.")
             else:
                 messages.error(request, "Username or password is incorrect")
     else:
