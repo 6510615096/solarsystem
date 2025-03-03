@@ -5,3 +5,7 @@
 6510615211 นางสาวพรนัชชา ประทีปสังคม  
 6510685040 นางสาวชนิกานต์ โสตถิวนิชย์วงศ์  
 6510685057 นางสาวญาณัชทัฬห์  คงกระจ่าง
+
+
+class diagram(login) and factory pattern , strategy pattern ,bridge pattern
+https://docs.google.com/document/d/1qxQyqUNOj65dhSxNww4H5n6CGovmkWDwfE5Sw47slUA/edit?usp=sharing
