@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add new solar plant</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/addnewsolar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="home-button">
+                <span class="material-symbols-outlined">home</span>
+                <p>home</p>
+            </button>
+
+            <button class="role-button">
+                <span class="material-symbols-outlined">edit</span>
+                <p>role management</p>
+            </button>
+
+            <button class="user-button">
+                <a href="{% url 'solarapp:profile' %}" class="user-button" style="text-decoration: none">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <p>{{ user.get_full_name }}</p>
+                </a>
+            </button>
+        </div>
+        
+        <h2 class="header">Add a new solar plane</h2>
+
+        <form>
+            <div class="form-map-group">
+                <div class="form-group-container">
+                    <div class="form-group">
+                        <label for="plant-name">Solar Plant Name <span class="required">*</span></label>
+                        <input type="text" id="plant-name" placeholder="Please type a solar plant name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="plant-properties">Solar Plant properties</label>
+                        <textarea id="plant-properties" placeholder="Please type solar plant properties" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="access-control">Access control</label>
+                        <div class="input-group">
+                            <textarea id="access-control" placeholder="Invite people to access this solar plant by their email" rows="2" cols="50"></textarea>
+                            <button type="button" class="invite-btn">Invite</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <label for="address">Address <span class="required">*</span></label>
+                    <input type="text" id="address" placeholder="Please type an address or choose from maps" />
+                    <div>รูป map</div>
+                    <button type="button" class="map-btn">Choose This Location</button>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>

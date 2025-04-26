@@ -50,3 +50,6 @@ def login_request(request):
 def profile_view(request):
     return render(request, 'profile.html', {'user': request.user})
 
+def addnewsolar(request):
+    return render(request, 'addnewsolar.html')
+
