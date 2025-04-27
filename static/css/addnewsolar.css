@@ -121,7 +121,13 @@ body {
     color: #324A32;
     
 }
+.map-container img {
+    max-width: 100%;  
+    max-height: 63%;
+    margin-top: 15px;
+    margin-left: 80px;
 
+}
 
 
 
