@@ -11,6 +11,138 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 
+    <style>
+        body {
+            font-family: 'Geist', sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .top-bar {
+            background-color: #607d57;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-bar button {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .top-bar button p {
+            margin: 0;
+        }
+
+        .welcome-bar {
+            margin: 20px 0;
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .sort-filter-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-button,
+        .filter-button {
+            background-color: #cbe5c0;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-container {
+            flex-grow: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff8b0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #d4c44d;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fff8b0;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fffce0;
+        }
+
+        .detail-button, .team-button {
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .detail-button {
+            background-color: #cccccc;
+            color: #333;
+        }
+
+        .team-button {
+            background-color: #b1e4b4;
+            color: #333;
+        }
+
+        .add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #607d57;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 36px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 50px;
+    display: inline-block;
+}
+
+    </style>
 </head>
 
 <body>
@@ -32,7 +164,6 @@
                     <p>{{ user.get_full_name }}</p>
                 </a>
             </button>
-
         </div>
 
         <div class="welcome-bar">
@@ -40,24 +171,107 @@
                 Welcome user, here are your tasks for today!
             </div>
             <div class="sort-filter-search">
-                <button class="sort-button">
-                    sort
-                </button>
+                <button class="sort-button">sort</button>
                 <button class="filter-button">
                     <p>filter</p>
                     <span class="material-symbols-outlined">filter_alt</span>
                 </button>
                 <div class="search-container">
                     <input type="text" class="search-input" placeholder="search a solar plant">
-                    <!-- <button class="search-button">Search</button> -->
                 </div>
             </div>
-
         </div>
 
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Solar Plant</th>
+                    <th>Admin</th>
+                    <th>Date</th>
+                    <th>Total tasks</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                    <th>Teams</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+                <tr>
+                    <td>004</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+                <tr>
+                    <td>005</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+                <tr>
+                    <td>006</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+                <tr>
+                    <td>007</td>
+                    <td>Solar Plant Name</td>
+                    <td>Name Surname</td>
+                    <td>23/02/25</td>
+                    <td>2</td>
+                    <td>In process</td>
+                    <td><button class="detail-button">Detail</button></td>
+                    <td><button class="team-button">Team</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{% url 'solarapp:addnewsolar' %}" class="add-button">+</a>
 
     </div>
-
 </body>
 
 </html>

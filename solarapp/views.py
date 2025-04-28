@@ -21,6 +21,9 @@ def register(request):
 def home(request):      
     return render(request, "home.html")
 
+def addnewsolar(request):
+    return render(request, 'addnewsolar.html')
+
 
 def login_request(request):
     if request.method == 'POST':
