@@ -1,0 +1,206 @@
+body {
+    font-family: 'Geist', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+}
+
+* {
+    font-family: Geist;
+}
+body {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    height: 100vh;
+}
+
+.top-bar {
+    width: 100%;
+    height: 50px;
+    background-color: #547D54;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+}
+
+/* top bar button */
+.home-button,
+.role-button,
+.user-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 20px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #547D54;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 50px;
+}
+
+.home-button p,
+.role-button p,
+.user-button p {
+    font-size: 16;
+    color: #ffffff;
+    font-family: inherit;
+}
+
+.home-button:hover,
+.role-button:hover,
+.user-button:hover {
+    background-color: #388E3C;
+}
+
+.home-button:active,
+.role-button:active,
+.user-button:active {
+    background-color: #DCCE52;
+}
+
+.home-button .material-symbols-outlined,
+.role-button .material-symbols-outlined,
+.user-button .material-symbols-outlined {
+    margin-right: 10px;
+}
+
+.user-button p {
+    text-decoration: underline;
+    font-family: inherit;
+}
+
+.container {
+    padding: 20px;
+}
+
+.top-bar {
+    display: flex;
+    background-color: #5a785a;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+}
+
+.top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.plant-details {
+    background-color: #fef9d7;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.details-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-item label {
+    width: 200px;
+}
+
+.detail-item input, .detail-item textarea {
+    flex: 1;
+    padding: 5px;
+}
+
+.edit-button {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.data-files {
+    margin-top: 30px;
+}
+
+.videos {
+    display: flex;
+    gap: 20px;
+}
+
+.video-box {
+    flex: 1;
+}
+
+.video-placeholder {
+    background-color: #ccc;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.results {
+    margin-top: 30px;
+}
+
+.performance-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.performance-card {
+    background-color: #27ae60;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.performance-card.low {
+    background-color: #c0392b;
+}
+
+.performance-card.medium {
+    background-color: #f1c40f;
+}

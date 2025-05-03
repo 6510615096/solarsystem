@@ -10,6 +10,7 @@ urlpatterns = [
     path("home/", views.home , name="home"),
     path("profile/", views.profile_view, name="profile"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path('addnewsolar/', views.addnewsolar, name='addnewsolar')
+    path('addnewsolar/', views.addnewsolar, name='addnewsolar'),
+    path('detail/', views.detail, name='detail'),
     
 ]

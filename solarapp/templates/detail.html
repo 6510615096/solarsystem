@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Plant Details</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- 
+        <div class="top-bar">
+            <button class="home-button">
+                <a href="{% url 'solarapp:home' %}" style="text-decoration: none;">
+                    <span class="material-symbols-outlined">home</span>
+                    <p>home</p>
+                </a>
+            </button>
+
+            <button class="role-button">
+                <span class="material-symbols-outlined">edit</span>
+                <p>role management</p>
+            </button>
+
+            <button class="user-button">
+                <a href="{% url 'solarapp:profile' %}" style="text-decoration: none;">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <p>{{ user.get_full_name }}</p>
+                </a>
+            </button>
+        </div>
+    -->
+
+        <div class="content">
+
+            <div class="header">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+                <h2>ID #001 - Solar Plant Name</h2>
+            </div>
+
+            <div class="plant-details">
+                <div class="details-form">
+                    <div class="detail-item">
+                        <label>Solar plant name</label>
+                        <input type="text" value="xxxxxxxxxxxxxx" readonly>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Owner</label>
+                        <input type="text" value="name surname" readonly>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Collected date and time</label>
+                        <input type="text" value="dd month yyyy - xx:xx" readonly>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Submitted date and time</label>
+                        <input type="text" value="dd month yyyy - xx:xx" readonly>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Weather</label>
+                        <input type="text" value="partly sunny" readonly>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Temperature</label>
+                        <input type="text" value="34 degrees celsius" readonly>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Address</label>
+                        <textarea readonly>xxxxx xxxxx xxxxx xxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
+                        <button class="edit-button">edit</button>
+                    </div>
+                    <div class="detail-item">
+                        <label>Who has access</label>
+                        <textarea readonly>name surname [email]
+name surname [email]</textarea>
+                    </div>
+                </div>
+
+                <button class="delete-button">Delete Solar Plant</button>
+            </div>
+
+            <div class="data-files">
+                <h3>Data files</h3>
+                <div class="videos">
+                    <div class="video-box">
+                        <p>Original Video</p>
+                        <div class="video-placeholder">
+                            <span class="material-symbols-outlined">play_circle</span>
+                        </div>
+                    </div>
+                    <div class="video-box">
+                        <p>Thermal Video</p>
+                        <div class="video-placeholder">
+                            <span class="material-symbols-outlined">play_circle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Zone A -->
+            <div class="results">
+                <h3>Result : Zone A</h3>
+                <div class="performance-grid">
+                    {% for perf in zone_a_performance %}
+                        <div class="performance-card 
+                            {% if perf == 20 %}low{% elif perf == 50 %}medium{% else %}high{% endif %}">
+                            <p>Performance</p>
+                            <p>{{ perf }}%</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="results">
+                <h3>Result : Zone B</h3>
+                <div class="performance-grid">
+                    {% for perf in zone_b_performance %}
+                        <div class="performance-card 
+                            {% if perf == 20 %}low{% elif perf == 50 %}medium{% else %}high{% endif %}">
+                            <p>Performance</p>
+                            <p>{{ perf }}%</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
