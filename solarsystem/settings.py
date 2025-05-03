@@ -58,7 +58,7 @@ ROOT_URLCONF = 'solarsystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates',],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'solarapp/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,8 +140,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ""
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',

@@ -7,29 +7,13 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/addnewsolar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="top-bar">
-            <button class="home-button">
-                <span class="material-symbols-outlined">home</span>
-                <p>home</p>
-            </button>
-
-            <button class="role-button">
-                <span class="material-symbols-outlined">edit</span>
-                <p>role management</p>
-            </button>
-
-            <button class="user-button">
-                <a href="{% url 'solarapp:profile' %}" class="user-button" style="text-decoration: none">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <p>{{ user.get_full_name }}</p>
-                </a>
-            </button>
-        </div>
+        {% include 'top_bar.html' %}
         
         <h2 class="header">Add a new solar plane</h2>
 

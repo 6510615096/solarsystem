@@ -51,7 +51,14 @@ def login_request(request):
     return render(request, 'index.html', {'form': form})
 
 def profile_view(request):
-    return render(request, 'profile.html', {'user': request.user})
+    user = request.user
+    if request.method == 'POST':
+        user.email = request.POST.get('email')
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.save()
+        return redirect('solarapp:home')  # กลับไปหน้า Home หลังบันทึก
+    return render(request, 'profile.html', {'user': user})
 
 def addnewsolar(request):
     return render(request, 'addnewsolar.html')

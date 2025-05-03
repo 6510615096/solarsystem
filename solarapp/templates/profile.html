@@ -5,31 +5,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <title>Profile</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
-
     <div class="container">
-        <h2>Profile of {{ user.username }}</h2>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>First Name:</strong> {{ user.first_name|default:"-" }}</p>
-        <p><strong>Last Name:</strong> {{ user.last_name|default:"-" }}</p>
+        {% include 'top_bar.html' %}
+    
+        <div class="profile-container">
+            <div class="header">
+                <h2>Profile of {{ user.username }}</h2>
+            </div>
 
-        <h3>Your Roles</h3>
-        <ul class="role-list">
-            {% for role in user.profile.roles.all %}
-            <li>{{ role.name }}</li>
-            {% empty %}
-            <li>No roles assigned</li>
-            {% endfor %}
-        </ul>
+            <form method="post">
+                {% csrf_token %}
+                <div class="profile-info">
+                    <div class="profile-field">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+                        <button type="button" class="edit-btn" onclick="editField('email')">edit</button>
+                    </div>
 
+                    <div class="profile-field">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ user.first_name|default:'' }}" readonly>
+                        <button type="button" class="edit-btn" onclick="editField('first_name')">edit</button>
+                    </div>
 
-        <a href="{% url 'solarapp:home' %}" class="btn">Back to Home</a>
+                    <div class="profile-field">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" id="last_name" name="last_name" value="{{ user.last_name|default:'' }}" readonly>
+                        <button type="button" class="edit-btn" onclick="editField('last_name')">edit</button>
+                    </div>
+                </div>
+
+                <div class="your-role">
+                    <h3>Your Roles</h3>
+                    <ul class="role-list">
+                        {% for role in user.profile.roles.all %}
+                        <li>{{ role.name }}</li>
+                        {% empty %}
+                        <li>No roles assigned</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <div class="btn-box">
+                    <a href="{% url 'solarapp:home' %}" class="btn">Back to Home</a>
+                    <button type="submit" class="btn-save">Save</button>
+                </div>
+            </form>
+
+            <script>
+                function editField(fieldId) {
+                    var inputField = document.getElementById(fieldId);
+                    var editButton = inputField.nextElementSibling;
+
+                    inputField.readOnly = false;
+                    inputField.focus();
+                    editButton.textContent = "Save";
+        
+                    editButton.setAttribute("onclick", "saveField('" + fieldId + "')");
+                }
+        
+                function saveField(fieldId) {
+                    var inputField = document.getElementById(fieldId);
+                    var editButton = inputField.nextElementSibling;
+
+                    inputField.readOnly = true;
+                    editButton.textContent = "edit";
+                }
+            </script>       
+        </div>
     </div>
+    
 
 </body>
 
