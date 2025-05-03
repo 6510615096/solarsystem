@@ -24,6 +24,27 @@ def home(request):
 def addnewsolar(request):
     return render(request, 'addnewsolar.html')
 
+"""
+def detail(request):
+    my_list = [1, 2]
+    
+    context = {
+        'my_list': my_list,
+    }
+    return render(request, 'detail.html', context)
+"""
+
+
+def detail(request):
+    # Dummy data
+    zone_a_performance = [100, 100, 20, 50, 100, 20, 50, 100, 45, 100, 50, 100, 100, 20, 30, 40]
+    zone_b_performance = [100, 50, 20, 100, 100, 50, 20, 100, 100, 40, 100, 50, 30, 20, 30, 40]
+
+    return render(request, 'detail.html', {
+        'zone_a_performance': zone_a_performance,
+        'zone_b_performance': zone_b_performance,
+    })
+
 
 def login_request(request):
     if request.method == 'POST':
