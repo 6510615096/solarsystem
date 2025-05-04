@@ -1,0 +1,83 @@
+* {
+    font-family: Geist;
+}
+
+body {
+    font-family: 'Geist', sans-serif;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    height: 100vh;
+}
+
+.container {
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3%;
+    color: #324A32;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.zone-detail {
+    background-color: #D9D9D9;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    gap: 10%;
+    margin-bottom: 40px;
+}
+
+.zone-detail p {
+    font-size: 20px;
+    color: #324A32;
+    font-weight: 600;
+}
+
+.analysis-result {
+    margin-bottom: 20px;
+}
+
+.analysis-result p {
+    color: #324A32;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.result-pic {
+    background-color: #D9D9D9;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    gap: 10%;
+    margin-bottom: 50px;
+}
+
+.result-pic img {
+    max-width: 90%;  
+}

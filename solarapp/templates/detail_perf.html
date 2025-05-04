@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Performance</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/detail_perf.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="header">
+                <a href="{% url 'solarapp:detail' plant.id %}">
+                    <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+                </a>
+                <h2>Zone A - Solar cell #{{ plant.id|stringformat:"03d" }}</h2>
+            </div>
+
+            <div class="zone-detail">
+                <p>Zone : A</p>
+                <p>Solar Cell Id : {{ plant.id|stringformat:"03d" }} </p>
+                <p>Expected Future Performance : xx </p>
+            </div>
+
+            <div class="analysis-result">
+                <p>Analysis Result</p>
+                <div class="result-pic">
+                    <img src="{% static 'images/analysis-result.png' %}" alt="analysis-result">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+</body>
+</html>

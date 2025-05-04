@@ -5,10 +5,17 @@
 .header {
     margin-top: 20px;
     margin-left: 50px;
-    font-size: 22px;
     color: #324A32;
     font-weight: bold;
     font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 22px;
 }
 
 .form-map-group {
@@ -20,13 +27,21 @@
 
 
 .form-group-container {
-    width: 40%; 
+    width: 45%; 
     height: 40%; 
     padding: 20px; 
     background: #D9D9D9; 
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-left: 40px; 
+    margin-left: 50px; 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group-container label {
+    text-align: left;
+    margin-left: 5px;
 }
 
 .form-group-container input {
@@ -35,38 +50,68 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #ffffff; 
-    margin-top: 5px;
+    margin-top: 10px;
     box-sizing: border-box;
 }
 
 .map-container {
-    width: 40%; 
-    height: 400px; 
+    width: 45%; 
+    height: 40%; 
     background-color: #D9D9D9;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-right: 50px;
     color: #324A32;
-    
+    text-align: center;
+    align-items: center;
+    justify-content: center;  
 }
+
+.map-container label {
+    text-align: left;
+    margin-left: 5px;
+}
+
 .map-container img {
-    max-width: 100%;  
+    max-width: 95%;  
     max-height: 63%;
-    margin-top: 15px;
-    margin-left: 80px;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 
 .map-container input {
     width: 95%;
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 10px;
+}
+
+.map-container .map-btn{
+    width: 250px;  
+    height: 40px;
+    background: #DCCE52;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;  
+    margin-top: 15px;
+    font-size: large;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin: 16px auto 0 auto;
+}
+
+.map-container .map-btn:hover{
+    background: #b4a947;
 }
 
 .form-group {
     margin-bottom: 20px;
-    margin-left: 20px;
     color: #324A32;
 }
 
@@ -79,28 +124,6 @@ label {
 .required {
     color: red;
 }
-
-.map-btn{
-    width: 250px;  
-    height: 40px;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background: #DCCE52;
-    color: black;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    display: block;  
-    margin: 20px auto;
-    font-size: large;
-    font-weight: bold;
-}
-
-.map-btn:hover{
-    background: #b4a947;
-}
-
 
 .submit-btn {
     width: 300px;  
@@ -116,11 +139,13 @@ label {
     margin-right: auto;
     display: block;
     font-weight: bold;
+    transition: background 0.3s;
 }
 
 .submit-btn:hover {
     background: #3c6545;
 }
+
 .invite-btn {
     position: absolute; 
     bottom: 10px;  
@@ -131,12 +156,12 @@ label {
     border: 1px solid #ccc;  
     border-radius: 10px;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
 .invite-btn:hover {
     background: #B3B3B3;  
 }
-
 
 textarea {
     width: 100%;  

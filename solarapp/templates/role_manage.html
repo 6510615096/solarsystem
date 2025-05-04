@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Management</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/role_manage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        {% include 'top_bar.html' %}
+    </div>
+
+    <div class="header">
+        <!--<a href="{% url 'solarapp:home' %}">
+            <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+        </a>
+        -->
+        
+        <h2>Role Management</h2>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name Surname</th>
+                    <th>Date</th>
+                    <th>Role</th>
+                    <th>Solar Plant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in user_profiles %}
+                <tr>
+                    <td>{{ profile.user.id|stringformat:"03d" }}</td>
+                    <td>{{ profile.user.get_full_name|default:profile.user.username }}</td>
+                    <td>{{ profile.user.date_joined|date:"d/m/y" }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'solarapp:update_user_role' profile.id %}">
+                            {% csrf_token %}
+                            <select name="role_ids[]" class="select-role" multiple>
+                                {% for role in roles %}
+                                    <option value="{{ role.id }}" {% if role in profile.roles.all %}selected{% endif %}>
+                                        {{ role.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Save</button>
+                        </form>
+                        
+                                              
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'solarapp:update_user_plant' profile.id %}">
+                            {% csrf_token %}
+                            <select name="plant_ids[]" class="select-plant" multiple>
+                                {% for plant in solar_plants %}
+                                    <option value="{{ plant.id }}" {% if plant in profile.assigned_plants.all %}selected{% endif %}>
+                                        {{ plant.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Save</button>
+                        </form>
+                        
+                    </td>
+                    
+                </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8">No users found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.select-role').select2({
+                placeholder: 'Select Roles',
+                width: '200px'
+            });
+    
+            $('.select-plant').select2({
+                placeholder: 'Select Plants',
+                width: '200px'
+            });
+        });
+    </script>
+    
+    
+    
+</body>
+</html>

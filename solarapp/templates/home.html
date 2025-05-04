@@ -47,83 +47,24 @@
                 </tr>
             </thead>
             <tbody>
+                {% for plant in solar_plants %}
                 <tr>
-                    <td>001</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
+                    <td>{{ plant.id|stringformat:"03d" }}</td>
+                    <td>{{ plant.name }}</td>
+                    <td>{{ plant.admin_name|default:"N/A" }}</td>
+                    <td>{{ plant.created_at|date:"d/m/y" }}</td>
+                    <td>{{ plant.total_tasks|default:"0" }}</td>
+                    <td>{{ plant.status|default:"In process" }}</td>
+                    <td>
+                        <a href="{% url 'solarapp:detail' plant.id %}" class="detail-button">Detail</a>
                     </td>
                     <td><button class="team-button">Team</button></td>
                 </tr>
-                <tr>
-                    <td>002</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
-                    </td>
-                    <td><button class="team-button">Team</button></td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
-                    </td>
-                    <td><button class="team-button">Team</button></td>
-                </tr>
-                <tr>
-                    <td>004</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
-                    </td>
-                    <td><button class="team-button">Team</button></td>
-                </tr>
-                <tr>
-                    <td>005</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
-                    </td>
-                    <td><button class="team-button">Team</button></td>
-                </tr>
-                <tr>
-                    <td>006</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
-                    </td>
-                    <td><button class="team-button">Team</button></td>
-                </tr>
-                <tr>
-                    <td>007</td>
-                    <td>Solar Plant Name</td>
-                    <td>Name Surname</td>
-                    <td>23/02/25</td>
-                    <td>2</td>
-                    <td>In process</td>
-                    <td><a href="{% url 'solarapp:detail' %}" class="detail-button">Detail</a>
-                    </td>
-                    <td><button class="team-button">Team</button></td>
-                </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8">No solar plants found.</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
 

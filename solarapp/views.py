@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, SolarPlantForm
 from django.contrib.auth.forms import AuthenticationForm
+from .models import SolarPlant, UserProfile, Role
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def register(request):
@@ -18,8 +20,18 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})
 
-def home(request):      
-    return render(request, "home.html")
+def home(request):
+    solar_plants = SolarPlant.objects.all()
+
+    plant_admin_map = {}
+    for plant in solar_plants:
+        admins = UserProfile.objects.filter(assigned_plants=plant)
+        admin_names = [admin.user.get_full_name() or admin.user.username for admin in admins]
+        plant.admin_name = ", ".join(admin_names) if admin_names else "N/A"
+
+    return render(request, 'home.html', {
+        'solar_plants': solar_plants,
+    })
 
 def addnewsolar(request):
     return render(request, 'addnewsolar.html')
@@ -35,16 +47,21 @@ def detail(request):
 """
 
 
-def detail(request):
-    # Dummy data
+def detail(request, plant_id):
+    plant = get_object_or_404(SolarPlant, id=plant_id)
+
+    admins = UserProfile.objects.filter(assigned_plants=plant)
+    admin_info = [f"{user.user.get_full_name()} [{user.user.email}]" for user in admins]
+
     zone_a_performance = [100, 100, 20, 50, 100, 20, 50, 100, 45, 100, 50, 100, 100, 20, 30, 40]
     zone_b_performance = [100, 50, 20, 100, 100, 50, 20, 100, 100, 40, 100, 50, 30, 20, 30, 40]
 
     return render(request, 'detail.html', {
+        'plant': plant,
+        'admin_info': "\n".join(admin_info),
         'zone_a_performance': zone_a_performance,
         'zone_b_performance': zone_b_performance,
     })
-
 
 def login_request(request):
     if request.method == 'POST':
@@ -82,5 +99,46 @@ def profile_view(request):
     return render(request, 'profile.html', {'user': user})
 
 def addnewsolar(request):
-    return render(request, 'addnewsolar.html')
+    if request.method == 'POST':
+        form = SolarPlantForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('solarapp:home')
+    else:
+        form = SolarPlantForm()
+
+    return render(request, 'addnewsolar.html', {'form': form})
+
+def detail_perf(request, plant_id):
+    plant = get_object_or_404(SolarPlant, id=plant_id)
+
+    return render(request, 'detail_perf.html', {
+        'plant': plant,
+    })
+
+def role_manage(request):
+    user_profiles = UserProfile.objects.select_related('user').prefetch_related('roles').order_by('user__id')
+    roles = Role.objects.exclude(name='Root Admin')
+    solar_plants = SolarPlant.objects.all().order_by('id')
+    return render(request, 'role_manage.html', {
+        'user_profiles': user_profiles,
+        'roles': roles,
+        'solar_plants': solar_plants,
+    })
+
+def update_user_role(request, profile_id):
+    if request.method == 'POST':
+        profile = get_object_or_404(UserProfile, id=profile_id)
+        role_ids = request.POST.getlist('role_ids[]')
+        profile.roles.set(role_ids)
+        profile.save()
+    return redirect('solarapp:role_manage')
+
+def update_user_plant(request, profile_id):
+    if request.method == 'POST':
+        profile = get_object_or_404(UserProfile, id=profile_id)
+        plant_ids = request.POST.getlist('plant_ids[]')
+        profile.assigned_plants.set(plant_ids)
+        profile.save()
+    return redirect('solarapp:role_manage')
 

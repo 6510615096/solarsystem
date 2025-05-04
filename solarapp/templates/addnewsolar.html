@@ -10,40 +10,71 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         {% include 'top_bar.html' %}
         
-        <h2 class="header">Add a new solar plane</h2>
-
-        <form>
+        <div class="header">
+            <a href="{% url 'solarapp:home' %}">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+            </a>
+            <h2>Add a new solar plane</h2>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
             <div class="form-map-group">
                 <div class="form-group-container">
                     <div class="form-group">
-                        <label for="plant-name">Solar Plant Name <span class="required">*</span></label>
-                        <input type="text" id="plant-name" placeholder="Please type a solar plant name" />
+                        <label for="{{ form.name.id_for_label }}">
+                            {{ form.name.label }} <span class="required">*</span>
+                        </label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="form-error">{{ form.name.errors }}</div>
+                        {% endif %}
                     </div>
+
                     <div class="form-group">
-                        <label for="plant-properties">Solar Plant properties</label>
-                        <textarea id="plant-properties" placeholder="Please type solar plant properties" rows="4" cols="50"></textarea>
+                        <label for="{{ form.properties.id_for_label }}">
+                            {{ form.properties.label }}
+                        </label>
+                        {{ form.properties }}
+                        {% if form.properties.errors %}
+                            <div class="form-error">{{ form.properties.errors }}</div>
+                        {% endif %}
                     </div>
+
                     <div class="form-group">
-                        <label for="access-control">Access control</label>
+                        <label for="{{ form.invited_emails.id_for_label }}">
+                            {{ form.invited_emails.label }}
+                        </label>
                         <div class="input-group">
-                            <textarea id="access-control" placeholder="Invite people to access this solar plant by their email" rows="2" cols="50"></textarea>
+                            {{ form.invited_emails }}
                             <button type="button" class="invite-btn">Invite</button>
                         </div>
+                        {% if form.invited_emails.errors %}
+                            <div class="form-error">{{ form.invited_emails.errors }}</div>
+                        {% endif %}
                     </div>
                 </div>
+
                 <div class="map-container">
-                    <label for="address">Address <span class="required">*</span></label>
-                    <input type="text" id="address" placeholder="Please type an address or choose from maps" />
+                    <label for="{{ form.address.id_for_label }}">
+                        {{ form.address.label }} <span class="required">*</span>
+                    </label>
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                        <div class="form-error">{{ form.address.errors }}</div>
+                    {% endif %}
                     <img src="{% static 'images/maps.png' %}" alt="maps">
                     <button type="button" class="map-btn">Choose This Location</button>
                 </div>
             </div>
-            <button type="submit" class="submit-btn">Submit</button>
+
+            <button type="submit" class="submit-btn">Submit</button>    
         </form>
     </div>
 

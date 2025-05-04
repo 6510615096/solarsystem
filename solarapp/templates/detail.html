@@ -7,84 +7,62 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <!-- {% include 'top_bar.html' %} -->
     <div class="container">
-
-        <!-- 
-        <div class="top-bar">
-            <button class="home-button">
-                <a href="{% url 'solarapp:home' %}" style="text-decoration: none;">
-                    <span class="material-symbols-outlined">home</span>
-                    <p>home</p>
-                </a>
-            </button>
-
-            <button class="role-button">
-                <span class="material-symbols-outlined">edit</span>
-                <p>role management</p>
-            </button>
-
-            <button class="user-button">
-                <a href="{% url 'solarapp:profile' %}" style="text-decoration: none;">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <p>{{ user.get_full_name }}</p>
-                </a>
-            </button>
-        </div>
-    -->
-
         <div class="content">
-
             <div class="header">
-                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
-                <h2>ID #001 - Solar Plant Name</h2>
+                <a href="{% url 'solarapp:home' %}">
+                    <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+                </a>
+                <h2>ID #{{ plant.id|stringformat:"03d" }} - {{ plant.name }}</h2>
             </div>
 
             <div class="plant-details">
                 <div class="details-form">
                     <div class="detail-item">
                         <label>Solar plant name</label>
-                        <input type="text" value="xxxxxxxxxxxxxx" readonly>
+                        <input type="text" value="{{ plant.name }}" readonly>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Owner</label>
-                        <input type="text" value="name surname" readonly>
+                        <input type="text" value="{% if plant.owner %}{{ plant.owner.get_full_name|default:plant.owner.username }}{% else %}N/A{% endif %}" readonly>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Collected date and time</label>
-                        <input type="text" value="dd month yyyy - xx:xx" readonly>
+                        <input type="text" value="{{ plant.collected_at|date:'d M Y - H:i' }}" readonly>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Submitted date and time</label>
-                        <input type="text" value="dd month yyyy - xx:xx" readonly>
+                        <input type="text" value="{{ plant.submitted_at|date:'d M Y - H:i' }}" readonly>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Weather</label>
-                        <input type="text" value="partly sunny" readonly>
+                        <input type="text" value="{{ plant.weather }}" readonly>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Temperature</label>
-                        <input type="text" value="34 degrees celsius" readonly>
+                        <input type="text" value="{{ plant.temperature }}" readonly>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Address</label>
-                        <textarea readonly>xxxxx xxxxx xxxxx xxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
+                        <textarea readonly>{{ plant.address }}</textarea>
                         <button class="edit-button">edit</button>
                     </div>
                     <div class="detail-item">
                         <label>Who has access</label>
-                        <textarea readonly>name surname [email]
-name surname [email]</textarea>
+                        <textarea readonly>{{ admin_info }}</textarea>                       
                     </div>
                 </div>
 
@@ -114,28 +92,32 @@ name surname [email]</textarea>
                 <h3>Result : Zone A</h3>
                 <div class="performance-grid">
                     {% for perf in zone_a_performance %}
-                        <div class="performance-card 
+                        <a href="{% url 'solarapp:detail_perf' plant.id %}">
+                            <div class="performance-card 
                             {% if perf == 20 %}low{% elif perf == 50 %}medium{% else %}high{% endif %}">
                             <p>Performance</p>
                             <p>{{ perf }}%</p>
-                        </div>
+                            </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
 
+            <!-- Results Zone B -->
             <div class="results">
                 <h3>Result : Zone B</h3>
                 <div class="performance-grid">
                     {% for perf in zone_b_performance %}
-                        <div class="performance-card 
+                        <a href="{% url 'solarapp:detail_perf' %}">
+                            <div class="performance-card 
                             {% if perf == 20 %}low{% elif perf == 50 %}medium{% else %}high{% endif %}">
                             <p>Performance</p>
                             <p>{{ perf }}%</p>
-                        </div>
+                            </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </div>
 </body>
