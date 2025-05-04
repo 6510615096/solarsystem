@@ -77,3 +77,5 @@ def profile_view(request):
 def addnewsolar(request):
     return render(request, 'addnewsolar.html')
 
+def editsolar(request):
+    return render(request, 'editsolar.html')
