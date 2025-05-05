@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit solar plant</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/editsolar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        {% include 'top_bar.html' %}
+        
+        <div class="header">
+            <a href="{% url 'solarapp:home' %}">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+            </a>
+            <h2>{{ plant.name }}</h2>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-map-group">
+                <div class="form-group-container">
+                    <div class="form-group">
+                        <label for="plant-name">Solar Plant Name <span class="required">*</span></label>
+                        <div class="input-group">
+                            <input type="text" id="plant-name" name="plant-name" value="{{ plant.name }}" readonly>
+                            <button type="button" class="edit-btn" onclick="enableEdit('plant-name')">edit</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plant-properties">Solar Plant properties</label>
+                        <div class="input-group">
+                            <textarea id="plant-properties" name="plant-properties" rows="4" cols="50" readonly>{{ plant.properties }}</textarea>
+                            <button type="button" class="edit-btn" onclick="enableEdit('plant-properties')">edit</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="delete-btn" name="delete" onclick="return confirm('Are you sure you want to delete this solar plant?');">
+                        Delete Solar Plant
+                    </button>                    
+                </div>
+                <div class="map-container">
+                    <label for="address">Address <span class="required">*</span></label>
+                    <div class="input-group">
+                        <input type="text" id="address" name="address" value="{{ plant.address }}" readonly />
+                        <button type="button" class="edit-btn" onclick="enableEdit('address')">edit</button>
+                    </div>
+                    <img src="{% static 'images/maps.png' %}" alt="maps">
+                    <button type="button" class="map-btn">Choose This Location</button>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn" name="save">Submit</button>
+        </form>        
+    </div>
+
+    <script>
+        function enableEdit(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.removeAttribute('readonly');
+                field.focus();
+            }
+        }
+    </script>
+
+</body>
+</html>

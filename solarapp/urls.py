@@ -18,4 +18,8 @@ urlpatterns = [
     path('role_manage/', views.role_manage, name='role_manage'),
     path('role_manage/update_role/<int:profile_id>/', views.update_user_role, name='update_user_role'),
     path('role_manage/update_plant/<int:profile_id>/', views.update_user_plant, name='update_user_plant'),
+    path('myteamadmin/', views.myteamadmin, name='myteamadmin'),
+    path('myteamadmin/<int:plant_id>/', views.myteamadmin, name='myteamadmin'),
+    path('editsolar/', views.editsolar, name='editsolar'),
+    path('editsolar/<int:plant_id>/', views.editsolar, name='editsolar'),
 ]

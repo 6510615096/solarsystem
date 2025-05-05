@@ -16,66 +16,6 @@ body {
     height: 100vh;
 }
 
-.top-bar {
-    width: 100%;
-    height: 50px;
-    background-color: #547D54;
-    z-index: 1000;
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px;
-}
-
-/* top bar button */
-.home-button,
-.role-button,
-.user-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 0px 20px;
-    height: 50px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background-color: #547D54;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin-right: 50px;
-}
-
-.home-button p,
-.role-button p,
-.user-button p {
-    font-size: 16;
-    color: #ffffff;
-    font-family: inherit;
-}
-
-.home-button:hover,
-.role-button:hover,
-.user-button:hover {
-    background-color: #388E3C;
-}
-
-.home-button:active,
-.role-button:active,
-.user-button:active {
-    background-color: #DCCE52;
-}
-
-.home-button .material-symbols-outlined,
-.role-button .material-symbols-outlined,
-.user-button .material-symbols-outlined {
-    margin-right: 10px;
-}
-
-.user-button p {
-    text-decoration: underline;
-    font-family: inherit;
-}
-
 .container {
     margin-top: 20px;
     margin-left: 50px;
@@ -150,6 +90,11 @@ body {
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 20px;
+    transition: background 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #7f857f;
 }
 
 .delete-button {
@@ -160,6 +105,32 @@ body {
     border-radius: 5px;
     margin-top: 10px;
     cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 20px;
+}
+
+.delete-button:hover {
+    background-color: #923026;
+}
+
+.submit-button {
+    background-color: #4d8056;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-button:hover {
+    background: #3c6545;
+}
+
+.delete-submit-btn {
+    margin-top: 5px;
+    text-align: right;
 }
 
 .data-files {

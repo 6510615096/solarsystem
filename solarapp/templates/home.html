@@ -50,7 +50,11 @@
                 {% for plant in solar_plants %}
                 <tr>
                     <td>{{ plant.id|stringformat:"03d" }}</td>
-                    <td>{{ plant.name }}</td>
+                    <td>
+                        <a href="{% url 'solarapp:editsolar' plant.id %}" class="plant-name-link">
+                        {{ plant.name }}
+                        </a>
+                    </td>
                     <td>{{ plant.admin_name|default:"N/A" }}</td>
                     <td>{{ plant.created_at|date:"d/m/y" }}</td>
                     <td>{{ plant.total_tasks|default:"0" }}</td>
@@ -58,7 +62,9 @@
                     <td>
                         <a href="{% url 'solarapp:detail' plant.id %}" class="detail-button">Detail</a>
                     </td>
-                    <td><button class="team-button">Team</button></td>
+                    <td>
+                        <a href="{% url 'solarapp:myteamadmin' plant.id %}" class="team-button">Team</a>
+                    </td>
                 </tr>
                 {% empty %}
                     <tr>
@@ -67,9 +73,7 @@
                 {% endfor %}
             </tbody>
         </table>
-
         <a href="{% url 'solarapp:addnewsolar' %}" class="add-button">+</a>
-
     </div>
 </body>
 

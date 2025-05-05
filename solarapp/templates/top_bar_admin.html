@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="top-bar">
+        <a href="{% url 'solarapp:home' %}" class="home-button">
+            <span class="material-symbols-outlined">home</span>
+            <p>home</p>
+        </a>        
+
+        <div class="dropdown">
+            <button class="user-button">
+                <span class="material-symbols-outlined">account_circle</span>
+                <p>{{ user.get_full_name }}</p>
+            </button>
+            <div class="dropdown-content">
+                <a href="{% url 'solarapp:profile' %}">Profile</a>
+                <a href="">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

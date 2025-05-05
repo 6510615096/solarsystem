@@ -33,9 +33,6 @@ def home(request):
         'solar_plants': solar_plants,
     })
 
-def addnewsolar(request):
-    return render(request, 'addnewsolar.html')
-
 """
 def detail(request):
     my_list = [1, 2]
@@ -50,9 +47,40 @@ def detail(request):
 def detail(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
 
+    # ดึงผู้ดูแลที่เกี่ยวข้อง
     admins = UserProfile.objects.filter(assigned_plants=plant)
     admin_info = [f"{user.user.get_full_name()} [{user.user.email}]" for user in admins]
 
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            plant.delete()
+            messages.success(request, "Solar plant deleted successfully.")
+            return redirect('solarapp:home')
+        else:
+            # อัปเดตค่าที่สามารถแก้ไขได้
+            plant.name = request.POST.get('name', plant.name)
+            plant.weather = request.POST.get('weather', plant.weather)
+            plant.temperature = request.POST.get('temperature', plant.temperature)
+            plant.address = request.POST.get('address', plant.address)
+
+            collected_at = request.POST.get('collected_at')
+            submitted_at = request.POST.get('submitted_at')
+
+            if collected_at:
+                parsed_collected = parse_datetime(collected_at)
+                if parsed_collected:
+                    plant.collected_at = parsed_collected
+
+            if submitted_at:
+                parsed_submitted = parse_datetime(submitted_at)
+                if parsed_submitted:
+                    plant.submitted_at = parsed_submitted
+
+            plant.save()
+            messages.success(request, "Solar plant updated successfully.")
+            return redirect('solarapp:detail', plant_id=plant.id)
+
+    # ใช้ข้อมูล mock สำหรับ performance (หรือดึงจาก model ได้ถ้ามี)
     zone_a_performance = [100, 100, 20, 50, 100, 20, 50, 100, 45, 100, 50, 100, 100, 20, 30, 40]
     zone_b_performance = [100, 50, 20, 100, 100, 50, 20, 100, 100, 40, 100, 50, 30, 20, 30, 40]
 
@@ -142,3 +170,36 @@ def update_user_plant(request, profile_id):
         profile.save()
     return redirect('solarapp:role_manage')
 
+def myteamadmin(request, plant_id):
+    plant = get_object_or_404(SolarPlant, id=plant_id)
+    team_profiles = UserProfile.objects.filter(assigned_plants=plant).select_related('user').prefetch_related('roles')
+    current_user_profile = None
+    if request.user.is_authenticated:
+        current_user_profile = getattr(request.user, 'profile', None)
+
+    sorted_profiles = sorted(team_profiles, key=lambda p: 0 if p == current_user_profile else 1)
+
+    return render(request, 'myteamadmin.html', {
+        'plant': plant,
+        'team_profiles': sorted_profiles
+    })
+
+def editsolar(request, plant_id):
+    plant = get_object_or_404(SolarPlant, id=plant_id)
+
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            plant.delete()
+            messages.success(request, "Solar plant has been deleted.")
+            return redirect('solarapp:home')
+
+        plant.name = request.POST.get('plant-name')
+        plant.properties = request.POST.get('plant-properties')
+        plant.address = request.POST.get('address')
+        plant.save()
+        messages.success(request, "Solar plant has been updated.")
+        return redirect('solarapp:home')
+
+    return render(request, 'editsolar.html', {
+        'plant': plant
+    })
