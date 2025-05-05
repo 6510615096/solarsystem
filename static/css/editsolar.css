@@ -58,6 +58,7 @@ body {
     justify-content: space-between;
     gap: 20px;
     margin: 0 50px;
+    margin-top: 20px;
 }
 
 .form-group-container {
@@ -217,4 +218,19 @@ textarea {
     bottom: 10px;
     transform: none;
   }
-  
+  .header-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 30px 50px 0 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #324A32;
+}
+
+.back-arrow {
+    font-family: 'Material Symbols Outlined';
+    font-size: 36px;
+    color: #324A32;
+    cursor: pointer;
+}
