@@ -79,3 +79,6 @@ def addnewsolar(request):
 
 def editsolar(request):
     return render(request, 'editsolar.html')
+
+def uploadzone(request):
+    return render(request, 'uploadzone.html')

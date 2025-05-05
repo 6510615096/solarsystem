@@ -13,5 +13,5 @@ urlpatterns = [
     path('addnewsolar/', views.addnewsolar, name='addnewsolar'),
     path('detail/', views.detail, name='detail'),
     path('editsolar/', views.editsolar, name='editsolar'),
-    
+    path('uploadzone/', views.uploadzone, name='uploadzone'),
 ]
