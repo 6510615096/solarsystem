@@ -27,6 +27,9 @@ def addnewsolar(request):
 def myteamadmin(request):
     return render(request, 'myteamadmin.html')
 
+def uploadfile(request):
+    return render(request, 'uploadfile.html')
+
 """
 def detail(request):
     my_list = [1, 2]

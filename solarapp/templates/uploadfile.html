@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upload file</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/uploadfile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar_drone.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <!-- ปฏิทิน -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        {% include 'top_bar_drone.html' %}
+        <div class="welcome-bar">
+            <div class="welcome-message">
+                Upload files
+            </div>
+        </div>
+        <div class="twoside">
+            <!-- ฝั่งซ้าย -->
+            <div class="upload-section">
+                <h3>Upload File</h3>
+                <div class="upload-area" id="uploadArea">
+                    <span class="material-symbols-outlined upload-icon">cloud_upload</span>
+                    <p>Drag & Drop files here or</p>
+                    <button class="browse-button" onclick="document.getElementById('fileInput').click()">Browse files</button>
+                    <input type="file" id="fileInput" multiple style="display: none;">
+                </div>
+                <div id="fileList"></div>
+            </div>
+            <!-- ฝั่งขวา -->
+            <div class="form-section">
+                <div class="form-left">
+                    <label for="plant">Select a solar plant</label>
+                    <select id="plant">
+                        <option value="" selected disabled>select a solar plant from the list</option>
+                        <option value="1">Plant 1</option>
+                        <option value="2">Plant 2</option>
+                        <option value="3">Plant 3</option>
+                    </select>
+        
+                    <label for="time">Time:</label>
+                    <input type="time" id="time">
+        
+                    <label for="weather">Weather:</label>
+                    <input type="text" id="weather" placeholder="Weather">
+        
+                    <label for="temperature">Temperature (°C):</label>
+                    <input type="number" id="temperature" placeholder="temperature in degree celsius">
+                </div>
+        
+                <div class="form-right">
+                    <label>Select Date:</label>
+                
+                    <div class="calendar-wrapper">
+                        <div id="inline-calendar"></div>
+                    </div>
+                    <button class="next-button">Next</button>
+                </div>
+                              
+            </div>
+        </div>
+
+        <script>
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            const uploadArea = document.getElementById('uploadArea');
+        
+            // handle drag & drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4CAF50';
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#aaa';
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#aaa';
+                const files = e.dataTransfer.files;
+                handleFiles(files);
+            });
+        
+            // handle file selection
+            fileInput.addEventListener('change', function(e) {
+                handleFiles(e.target.files);
+            });
+        
+            function handleFiles(files) {
+                fileList.innerHTML = '';
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const listItem = document.createElement('p');
+                    listItem.textContent = `Uploaded: ${file.name}`;
+                    fileList.appendChild(listItem);
+                }
+            }
+        </script>
+        <!-- Flatpickr JS -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr("#inline-calendar", {
+                inline: true,
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log("Collected Date and Time", dateStr);
+                    // คุณสามารถเก็บค่าวันที่หรือส่งไปทำงานต่อได้ที่นี่
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>

@@ -14,4 +14,5 @@ urlpatterns = [
     path('detail/', views.detail, name='detail'),
     path('rolemanagement/', views.rolemanagement, name='rolemanagement'),
     path('myteamadmin/', views.myteamadmin, name='myteamadmin'),
+    path('uploadfile/', views.uploadfile, name='uploadfile'),
 ]
