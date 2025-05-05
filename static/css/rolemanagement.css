@@ -1,0 +1,148 @@
+* {
+    font-family: Geist;
+}
+
+/* welcome bar and button */
+.welcome-message {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 24px;
+    color: #324A32;
+    font-weight: bold;
+    font-family: inherit;
+}
+
+.welcome-bar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+.welcome-message-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* ระยะห่างระหว่างลูกศรกับข้อความ */
+    transition: color 0.3s;
+}
+
+.welcome-message-link:hover {
+    color: #8CD58C;
+    text-decoration: underline;
+}
+
+.welcome-message-link .material-symbols-outlined {
+    font-size: 20px; /* ขนาดลูกศร */
+}
+
+.sort-button,
+.filter-button {
+    margin-top: 20px;
+    background-color: #8CD58C;
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 20px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sort-button:hover,
+.filter-button:hover {
+    background-color: #388E3C;
+}
+
+.sort-button:active,
+.filter-button:active {
+    background-color: #FFF6A9;
+    color: #000000;
+}
+
+/* search */
+.search-container {
+    flex-grow: 1;
+}
+
+.search-input {
+    margin-top: 20px;
+    padding: 0px 20px;
+    height: 40px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #A2D0A2;
+    color: #FFFFFF;
+}
+
+.search-input::placeholder {
+    color: #ffffff;
+}
+
+.search-input:focus {
+    border-color: #388E3C;
+}
+
+
+.sort-filter-search {
+    width: 50%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    gap: 5%;
+    margin-right: 5%;
+}
+
+/* table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background-color: #fff8b0;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #324A32;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 15px 30px;
+    text-align: center;
+}
+
+th {
+    background-color: #ccc;
+}
+
+tr:nth-child(even) {
+    background-color: #fffce0;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+select {
+    padding: 8px 12px;
+    border: 1px solid #324A32;
+    border-radius: 20px; 
+    background-color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+}
+
+select:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6); /* ใส่เงาตอน focus */
+}

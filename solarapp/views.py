@@ -24,6 +24,9 @@ def home(request):
 def addnewsolar(request):
     return render(request, 'addnewsolar.html')
 
+def myteamadmin(request):
+    return render(request, 'myteamadmin.html')
+
 """
 def detail(request):
     my_list = [1, 2]
@@ -33,7 +36,8 @@ def detail(request):
     }
     return render(request, 'detail.html', context)
 """
-
+def rolemanagement(request):
+    return render(request, 'rolemanagement.html')
 
 def detail(request):
     # Dummy data

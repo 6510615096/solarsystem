@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/myteamadmin.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        {% include 'top_bar.html' %}
+        <div class="welcome-bar">
+            <div class="welcome-message">
+                <a href="/home" class="welcome-message-link">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    My Team
+                </a>   
+            </div>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <span class="material-symbols-outlined profile-icon">account_circle</span>
+                <div class="member-info">
+                    <div class="member-name">xxxx xxxx</div>
+                    <div class="member-role">
+                        <span class="role-type">Member</span>
+                        <span class="divider"></span>
+                        <span class="role-name"></span>
+                    </div>                 
+                </div>
+            </div>
+            <div class="team-card">
+                <span class="material-symbols-outlined profile-icon">account_circle</span>
+                <div class="member-info">
+                    <div class="member-name">xxxx xxxx</div>
+                    <div class="member-role">
+                        <span class="role-type">Member</span>
+                        <span class="divider"> / </span>
+                        <span class="role-name">Data Analyst</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="team-card">
+                <span class="material-symbols-outlined profile-icon">account_circle</span>
+                <div class="member-info">
+                    <div class="member-name">xxxx xxxx</div>
+                    <div class="member-role">
+                        <span class="role-type">Member</span>
+                        <span class="divider"> / </span>
+                        <span class="role-name">Drone controller</span>
+                    </div>                    
+                </div>
+            </div>
+        
+            <div class="team-card">
+                <span class="material-symbols-outlined profile-icon">account_circle</span>
+                <div class="member-info">
+                    <div class="member-name">xxxx xxxx</div>
+                    <div class="member-role">
+                        <span class="role-type">Member</span>
+                        <span class="divider"> / </span>
+                        <span class="role-name">Data Analyst</span>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+              
+    </div>
+</body>
+
+</html>

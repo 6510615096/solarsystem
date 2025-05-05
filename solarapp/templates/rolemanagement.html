@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/rolemanagement.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        {% include 'top_bar.html' %}
+        <div class="welcome-bar">
+            <div class="welcome-message">
+                <a href="/myteamadmin" class="welcome-message-link">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Role Management
+                </a>   
+            </div>
+            <div class="sort-filter-search">
+                <button class="sort-button">sort</button>
+                <button class="filter-button">
+                    <p>filter</p>
+                    <span class="material-symbols-outlined">filter_alt</span>
+                </button>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="search a solar plant">
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name Surname</th>
+                    <th>Date</th>
+                    <th>Role</th>
+                    <th>Solar Plant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>004</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>005</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>006</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>007</td>
+                    <td>Name Surname</td>
+                    <td>2025-05-03</td>
+                    <td>
+                    <select>
+                        <option value="" selected disabled>Choose</option>
+                        <option value="admin">admin</option>
+                        <option value="analyst">analyst</option>
+                        <option value="drone controller">drone controller</option>
+                    </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" selected disabled>Choose</option>
+                            <option value="Plant A">Plant A</option>
+                            <option value="Plant B">Plant B</option>
+                            <option value="Plant C">Plant C</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{% url 'solarapp:addnewsolar' %}" class="add-button">+</a>
+
+    </div>
+</body>
+
+</html>

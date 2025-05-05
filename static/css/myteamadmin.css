@@ -1,0 +1,129 @@
+
+* {
+    font-family: Geist;
+}
+
+body {
+    font-family: 'Geist', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+}
+
+* {
+    font-family: Geist;
+}
+body {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    height: 100vh;
+}
+
+.top-bar {
+    width: 100%;
+    height: 50px;
+    background-color: #547D54;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+}
+
+
+/* welcome bar and button */
+.welcome-message {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 24px;
+    color: #324A32;
+    font-weight: bold;
+    font-family: inherit;
+}
+
+.welcome-bar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+.welcome-message-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* ระยะห่างระหว่างลูกศรกับข้อความ */
+    transition: color 0.3s;
+}
+
+.welcome-message-link:hover {
+    color: #8CD58C;
+    text-decoration: underline;
+}
+
+.welcome-message-link .material-symbols-outlined {
+    font-size: 20px; /* ขนาดลูกศร */
+}
+
+/******************************/
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto); /* 2 กล่องต่อแถว ขนาดตามเนื้อ */
+    gap: 20px 50px;
+    justify-content: center; /* จัดให้ทุกกล่องอยู่กลาง */
+    margin: 100px auto;
+}
+
+.team-card {
+    background-color: #547D54;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex; /* เปลี่ยนเป็น flex แนวนอน */
+    align-items: center;
+    gap: 15px; /* ระยะห่างระหว่างไอคอนกับข้อมูล */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 280px;
+    
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.profile-icon {
+    color: #ffffff;
+    flex-shrink: 0; /* ไม่ย่อเวลาแคบ */
+}
+
+.member-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.member-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #FFF6A9;
+}
+
+.role-type {
+    color: #ffffff; 
+    font-weight: 600;
+}
+
+.role-name {
+    color: #ddd; 
+}
+
+.divider {
+    color: #ffffff;
+}
