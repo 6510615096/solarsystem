@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upload</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/top_bar_drone.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        {% include 'top_bar_drone.html' %}
+
+        <div class="header">
+            <a href="{% url 'solarapp:uploadfile' %}">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+            </a>
+            <h2>Select solar cell from the picture</h2>
+        </div>
+
+        <div class="zone-image-group">
+            <div class="zone-image-box">
+                <p>display zones that have already been created</p>
+                <div class="zoom-wrapper">
+                    <img src="{% static 'images/displayzone.png' %}">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn">
+                            <span class="material-symbols-outlined">zoom_out</span>
+                        </button>
+                        <button class="zoom-btn">
+                            <span class="material-symbols-outlined">zoom_in</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="zone-image-box">
+                <p>click on the picture 4 points to create Solar Cells zone</p>
+                <div class="zoom-wrapper">
+                    <img src="{% static 'images/4pointpic.png' %}">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn">
+                            <span class="material-symbols-outlined">zoom_out</span>
+                        </button>
+                        <button class="zoom-btn">
+                            <span class="material-symbols-outlined">zoom_in</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-table-group">
+            <div class="zone-table-box">
+                <table class="zone-table">
+                    <thead>
+                        <tr>
+                            <th>display</th>
+                            <th>name</th>
+                            <th>delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>zone A</td>
+                            <td><span class="material-symbols-outlined trash-icon">delete</span></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>zone B</td>
+                            <td><span class="material-symbols-outlined trash-icon">delete</span></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>zone C</td>
+                            <td><span class="material-symbols-outlined trash-icon">delete</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="zone-confirm">
+                <label for="zone-name">Zone name</label>
+                <input type="text" id="zone-name" placeholder="Please type a zone name">
+                <button type="button" class="confirm-btn">Confirm</button>
+            </div>
+
+        </div>
+        <button type="submit" class="submit-btn">Submit</button>
+
+</body>
+
+</html>

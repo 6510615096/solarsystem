@@ -203,3 +203,9 @@ def editsolar(request, plant_id):
     return render(request, 'editsolar.html', {
         'plant': plant
     })
+
+def uploadfile(request):
+    return render(request, 'uploadfile.html')
+
+def uploadzone(request):
+    return render(request, 'uploadzone.html')

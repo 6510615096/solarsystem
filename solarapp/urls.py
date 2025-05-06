@@ -22,4 +22,6 @@ urlpatterns = [
     path('myteamadmin/<int:plant_id>/', views.myteamadmin, name='myteamadmin'),
     path('editsolar/', views.editsolar, name='editsolar'),
     path('editsolar/<int:plant_id>/', views.editsolar, name='editsolar'),
+    path('uploadfile/', views.uploadfile, name='uploadfile'),
+    path('uploadzone/', views.uploadzone, name='uploadzone'),
 ]
