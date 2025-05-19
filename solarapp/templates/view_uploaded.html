@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/view_uploaded.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'top_bar.html' with user_roles=user_roles %}
+
+    <h2>Uploaded Data for {{ plant.name }}</h2>
+
+
+    {% if uploaded_images %}
+        <table class="uploaded-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Zone</th> 
+                    <th>Weather</th>
+                    <th>Temperature (°C)</th>
+                    <th>Collected Date</th>
+                    <th>Time</th>
+                    <th>Uploaded At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for img in uploaded_images %}
+                <tr>
+                    <td>
+                        <img src="{{ img.file.url }}" alt="uploaded image" style="max-height: 120px; max-width: 150px; object-fit: cover; border-radius: 8px;">
+                    </td>
+                    <td>{{ img.zone|default:"-" }}</td> 
+                    <td>{{ img.weather }}</td>
+                    <td>{{ img.temperature }}</td>
+                    <td>{{ img.collected_date }}</td>
+                    <td>{{ img.time }}</td>
+                    <td>{{ img.uploaded_at|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No uploaded data available for this plant.</p>
+    {% endif %}
+
+    <div class="button-group">
+        <a href="{% url 'solarapp:uploadfile' %}?plant_id={{ plant.id }}">
+            <button class="submit-btn">Upload Photo</button>
+        </a>
+    </div>
+</body>
+</html>

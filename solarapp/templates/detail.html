@@ -7,89 +7,126 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        .message-container {
+            margin: 20px auto;
+            width: fit-content;
+            text-align: center;
+            z-index: 999;
+        }
+        .alert {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeOut 4s ease-in-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        </style>
+        
+
 </head>
 
 <body>
+
     <div class="container">
-
-        <!-- 
-        <div class="top-bar">
-            <button class="home-button">
-                <a href="{% url 'solarapp:home' %}" style="text-decoration: none;">
-                    <span class="material-symbols-outlined">home</span>
-                    <p>home</p>
-                </a>
-            </button>
-
-            <button class="role-button">
-                <span class="material-symbols-outlined">edit</span>
-                <p>role management</p>
-            </button>
-
-            <button class="user-button">
-                <a href="{% url 'solarapp:profile' %}" style="text-decoration: none;">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <p>{{ user.get_full_name }}</p>
-                </a>
-            </button>
+        {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
         </div>
-    -->
-
+        {% endif %}
         <div class="content">
-
             <div class="header">
-                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
-                <h2>ID #001 - Solar Plant Name</h2>
+                <a href="{% url 'solarapp:home' %}">
+                    <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+                </a>
+                <h2>ID #{{ plant.id|stringformat:"03d" }} - {{ plant.name }}</h2>
             </div>
 
-            <div class="plant-details">
-                <div class="details-form">
-                    <div class="detail-item">
-                        <label>Solar plant name</label>
-                        <input type="text" value="xxxxxxxxxxxxxx" readonly>
-                        <button class="edit-button">edit</button>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="plant-details">
+                    <div class="details-form">
+                        <div class="detail-item">
+                            <label>Solar plant name</label>
+                            <input type="text" name="name" value="{{ plant.name }}" {% if not can_edit %}readonly{% endif %}>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Owner</label>
+                            <input type="text" name="owner" value="{% if plant.owner %}{{ plant.owner.get_full_name|default:plant.owner.username }}{% else %}N/A{% endif %}" {% if not can_edit %}readonly{% endif %}>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Collected date and time</label>
+                            <input type="text" name="collected_at" value="{{ plant.collected_at|date:'Y-m-d\\TH:i' }}" {% if not can_edit %}readonly{% endif %}>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Submitted date and time</label>
+                            <input type="text" name="submitted_at" value="{{ plant.submitted_at|date:'Y-m-d\\TH:i' }}" {% if not can_edit %}readonly{% endif %}>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Weather</label>
+                            <input type="text" name="weather" value="{{ plant.weather }}" {% if not can_edit %}readonly{% endif %}>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Temperature</label>
+                            <input type="text" name="temperature" value="{{ plant.temperature }}" {% if not can_edit %}readonly{% endif %}>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Address</label>
+                            <textarea name="address" {% if not can_edit %}readonly{% endif %}>{{ plant.address }}</textarea>
+                            {% if can_edit %}
+                            <button class="edit-button" type="button" onclick="enableEdit(this)">edit</button>
+                            {% endif %}
+                        </div>
+                        <div class="detail-item">
+                            <label>Who has access</label>
+                            <textarea readonly>{{ admin_info }}</textarea>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <label>Owner</label>
-                        <input type="text" value="name surname" readonly>
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="detail-item">
-                        <label>Collected date and time</label>
-                        <input type="text" value="dd month yyyy - xx:xx" readonly>
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="detail-item">
-                        <label>Submitted date and time</label>
-                        <input type="text" value="dd month yyyy - xx:xx" readonly>
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="detail-item">
-                        <label>Weather</label>
-                        <input type="text" value="partly sunny" readonly>
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="detail-item">
-                        <label>Temperature</label>
-                        <input type="text" value="34 degrees celsius" readonly>
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="detail-item">
-                        <label>Address</label>
-                        <textarea readonly>xxxxx xxxxx xxxxx xxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="detail-item">
-                        <label>Who has access</label>
-                        <textarea readonly>name surname [email]
-name surname [email]</textarea>
+            
+                    <div class="delete-submit-btn">
+                        {% if can_delete %}
+                        <button class="delete-button" type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this solar plant?');">Delete Solar Plant</button>
+                        {% endif %}
+                        
+                        {% if can_edit %}
+                        <button class="submit-button" type="submit" name="save">Save Changes</button>
+                        {% endif %}
                     </div>
                 </div>
-
-                <button class="delete-button">Delete Solar Plant</button>
-            </div>
+            </form>
+            
 
             <div class="data-files">
                 <h3>Data files</h3>
@@ -114,29 +151,42 @@ name surname [email]</textarea>
                 <h3>Result : Zone A</h3>
                 <div class="performance-grid">
                     {% for perf in zone_a_performance %}
-                        <div class="performance-card 
+                        <a href="{% url 'solarapp:detail_perf' plant.id %}">
+                            <div class="performance-card 
                             {% if perf == 20 %}low{% elif perf == 50 %}medium{% else %}high{% endif %}">
                             <p>Performance</p>
                             <p>{{ perf }}%</p>
-                        </div>
+                            </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
 
+            <!-- Results Zone B -->
             <div class="results">
                 <h3>Result : Zone B</h3>
                 <div class="performance-grid">
                     {% for perf in zone_b_performance %}
-                        <div class="performance-card 
+                        <a href="{% url 'solarapp:detail_perf' plant.id %}">
+                            <div class="performance-card 
                             {% if perf == 20 %}low{% elif perf == 50 %}medium{% else %}high{% endif %}">
                             <p>Performance</p>
                             <p>{{ perf }}%</p>
-                        </div>
+                            </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </div>
+    <script>
+        function enableEdit(button) {
+            const input = button.previousElementSibling;
+            if (input) {
+                input.removeAttribute('readonly');
+                input.focus();
+            }
+        }
+    </script>
 </body>
 </html>

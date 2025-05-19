@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,67 +8,111 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/editsolar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        .message-container {
+            margin: 20px auto;
+            width: fit-content;
+            text-align: center;
+            z-index: 999;
+        }
+        .alert {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeOut 4s ease-in-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        </style>
 </head>
 <body>
     <div class="container">
-        <div class="top-bar">
-            <button class="home-button">
-                <span class="material-symbols-outlined">home</span>
-                <p>home</p>
-            </button>
-
-            <button class="role-button">
-                <span class="material-symbols-outlined">edit</span>
-                <p>role management</p>
-            </button>
-
-            <button class="user-button">
-                <a href="{% url 'solarapp:profile' %}" class="user-button" style="text-decoration: none">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <p>{{ user.get_full_name }}</p>
-                </a>
-            </button>
+        {% include 'top_bar.html' with user_roles=user_roles %}
+        
+        {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
         </div>
-        <div class="header-row">
-            <span class="material-symbols-outlined back-arrow">arrow_back</span>
-            Edit solar plane
+        {% endif %}
+        <div class="header">
+            <a href="{% url 'solarapp:home' %}">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+            </a>
+            <h2>{{ plant.name }}</h2>
         </div>
 
-
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <div class="form-map-group">
                 <div class="form-group-container">
                     <div class="form-group">
                         <label for="plant-name">Solar Plant Name <span class="required">*</span></label>
                         <div class="input-group">
-                          <input type="text" id="plant-name" placeholder="Please type a solar plant name">
-                          <button type="button" class="edit-btn">edit</button>
+                            <input type="text" id="plant-name" name="plant-name" value="{{ plant.name }}" readonly>
+                            <button type="button" class="edit-btn" onclick="enableEdit('plant-name')">edit</button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="plant-properties">Solar Plant properties</label>
                         <div class="input-group">
-                            <textarea id="plant-properties" placeholder="Please type solar plant properties" rows="4" cols="50"></textarea>
-                            <button type="button"  class="edit-btn">edit</button>
+                            <textarea id="plant-properties" name="plant-properties" rows="4" cols="50" readonly>{{ plant.properties }}</textarea>
+                            <button type="button" class="edit-btn" onclick="enableEdit('plant-properties')">edit</button>
                         </div>
                     </div>
-                    <button type="button" class="delete-btn">Delete Solar Plant</button>
+                    {% if can_delete %}
+                    <button type="submit" class="delete-btn" name="delete" onclick="return confirm('Are you sure you want to delete this solar plant?');">
+                        Delete Solar Plant
+                    </button>
+                    {% endif %}
+                                
                 </div>
                 <div class="map-container">
                     <label for="address">Address <span class="required">*</span></label>
                     <div class="input-group">
-                        <input type="text" id="address" placeholder="Please type an address or choose from maps" />
-                        <button type="button"  class="edit-btn">edit</button>
+                        <input type="text" id="address" name="address" value="{{ plant.address }}" readonly />
+                        <button type="button" class="edit-btn" onclick="enableEdit('address')">edit</button>
                     </div>
                     <img src="{% static 'images/maps.png' %}" alt="maps">
                     <button type="button" class="map-btn">Choose This Location</button>
+                    {% if uploaded_images %}
+                    <div class="image-grid">
+                        {% for img in uploaded_images %}
+                        <div class="image-card">
+                            <img src="{{ img.file.url }}" alt="uploaded image">
+                            <p class="image-label">{{ img.weather }} | {{ img.collected_date }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    </div>
                 </div>
             </div>
-            <button type="submit" class="submit-btn">Submit</button>
-        </form>
+            <button type="submit" class="submit-btn" name="save">Submit</button>
+        </form>        
     </div>
+
+    <script>
+        function enableEdit(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.removeAttribute('readonly');
+                field.focus();
+            }
+        }
+    </script>
 
 </body>
 </html>

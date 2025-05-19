@@ -15,15 +15,15 @@
 
 <body>
     {% if messages %}
-    <div class="popup-overlay">
+        <div class="popup-overlay">
         <div class="popup-box">
             {% for message in messages %}
             <p>{{ message }}</p>
             {% endfor %}
-        <button onclick="closePopup()">OK</button>
+            <button onclick="closePopup()">OK</button>
         </div>
-    </div>
-    {% endif %}
+        </div>
+        {% endif %}
     <div class="container">
         <!-- <div class="background-div"></div> -->
         <h1>Solar Cell Maintenance System</h1>

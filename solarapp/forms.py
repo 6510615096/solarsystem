@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, Role
+from .models import UserProfile, Role, SolarPlant
 
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False)
@@ -22,3 +22,20 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
             UserProfile.objects.create(user=user)
         return user
+    
+class SolarPlantForm(forms.ModelForm):
+    class Meta:
+        model = SolarPlant
+        fields = ['name', 'properties', 'address', 'invited_emails']
+        labels = {
+            'name': 'Solar Plant Name',
+            'properties': 'Solar Plant properties',
+            'invited_emails': 'Access control',
+            'address': 'Address',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Please type a solar plant name'}),
+            'properties': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Please type a solar plant properties'}),
+            'address': forms.TextInput(attrs={'placeholder': 'Please type an address'}),
+            'invited_emails': forms.Textarea(attrs={'rows': 2, 'placeholder': 'Invite people to access this solar plant by their email'}),
+        }

@@ -1,19 +1,35 @@
 <div class="top-bar">
-    <button class="home-button">
-        <a href="{% url 'solarapp:home' %}" class="user-button" style="text-decoration: none"></a>
+    
+    <a href="{% url 'solarapp:home' %}" class="home-button">
         <span class="material-symbols-outlined">home</span>
         <p>home</p>
-    </button>
+    </a>
 
-    <button class="role-button">
+    {% if 'Admin' in user_roles %}
+    <a href="{% url 'solarapp:role_manage' %}" class="role-button">
         <span class="material-symbols-outlined">edit</span>
         <p>role management</p>
-    </button>
+    </a>
+    {% endif %}
 
-    <button class="user-button">
-        <a href="{% url 'solarapp:profile' %}" class="user-button" style="text-decoration: none">
+    {% for role in user_roles %}
+    {% if role|lower == 'drone controller' %}
+        <a href="{% url 'solarapp:uploadfile' %}" class="upload-button">
+            <span class="material-symbols-outlined">cloud_upload</span>
+            <p>upload</p>
+        </a>
+    {% endif %}
+    {% endfor %}
+
+
+    <div class="dropdown">
+        <button class="user-button">
             <span class="material-symbols-outlined">account_circle</span>
             <p>{{ user.get_full_name }}</p>
-        </a>
-    </button>
+        </button>
+        <div class="dropdown-content">
+            <a href="{% url 'solarapp:profile' %}">Profile</a>
+            <a href="{% url 'solarapp:login' %}">Logout</a>
+        </div>
+    </div>
 </div>

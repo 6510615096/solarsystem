@@ -2,10 +2,16 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Role
+from .models import UploadedFile
 
 # Register Role model
+
+@admin.register(UploadedFile)
+class UploadedFileAdmin(admin.ModelAdmin):
+    list_display = ('file', 'plant', 'uploaded_at', 'collected_date', 'weather', 'temperature')
+
 @admin.register(Role)
-class RoleAdmin(admin.ModelAdmin):
+class RoleAdmin(admin.ModelAdmin): 
     list_display = ('name', 'description')
     search_fields = ('name',)
 

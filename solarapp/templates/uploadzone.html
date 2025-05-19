@@ -6,71 +6,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>upload</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
-
+    <style>
+       
+        .message-container {
+            margin: 20px auto;
+            width: fit-content;
+            text-align: center;
+            z-index: 999;
+        }
+        .alert {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeOut 4s ease-in-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+ 
+        .top-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #547D54;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 5px 20px;
+            z-index: 1000;
+        }
+        
+        
+        .upload-button,
+        .user-button {
+            display: inline-flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #547D54;
+            border: none;
+            border-radius: 8px;
+            padding: 0px 15px;
+            margin-left: 10px;
+            height: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .home-button:hover,
+        .role-button:hover,
+        .upload-button:hover,
+        .user-button:hover {
+            background-color: #FFEE59;
+            color: #547D54;
+        }
+        
+        .home-button:active,
+        .role-button:active,
+        .upload-button:active,
+        .user-button:active {
+            background-color: #DCCE52;
+        }
+        
+        .upload-button .material-symbols-outlined,
+        .user-button .material-symbols-outlined {
+            margin-right: 10px;
+        }
+        
+        .upload-button p,
+        .user-button p {
+            font-size: 16px;
+            color: #ffffff;
+            font-family: inherit;
+            margin: 0;
+        }
+        
+        .user-button p {
+            text-decoration: underline;
+        }
+        
+        
+        .upload-button {
+            background-color: #547D54;
+            font-weight: bold;
+            padding: 0px 15px;
+            height: 40px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+        }
+        .upload-button:hover {
+            background-color: #FFEE59;
+            color: #547D54;
+        }
+        .upload-button p {
+            margin: 0;
+            font-size: 16px;
+            color: white;
+        }
+        
+        
+            </style>
 </head>
 
 <body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="message {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <div class="container">
-        <div class="top-bar">
-            <button class="home-button">
-                <span class="material-symbols-outlined">home</span>
-                <p>home</p>
-            </button>
+        {% include 'top_bar.html' with user_roles=user_roles %}
 
-            <button class="role-button">
-                <span class="material-symbols-outlined">cloud_upload</span>
-                <p>upload</p>
-            </button>
 
-            <button class="user-button">
-                <a href="{% url 'solarapp:profile' %}" class="user-button" style="text-decoration: none">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <p>{{ user.get_full_name }}</p>
-                </a>
-            </button>
+        <div class="header">
+            <a href="{% url 'solarapp:uploadfile' %}">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+            </a>
+            <h2>Select solar cell from the picture</h2>
         </div>
-
-        <div class="header-row">
-            <span class="material-symbols-outlined back-arrow">arrow_back</span>
-            Select solar cell from the picture
-        </div>
-
-
 
         <div class="zone-image-group">
             <div class="zone-image-box">
                 <p>display zones that have already been created</p>
                 <div class="zoom-wrapper">
-                    <img src="{% static 'images/displayzone.png' %}">
+                    {% if uploaded_files|length >= 1 %}
+                        <img src="{{ uploaded_files.0.file.url }}">
+                    {% else %}
+                        <img src="{% static 'images/displayzone.png' %}">
+                    {% endif %}
                     <div class="zoom-controls">
-                        <button class="zoom-btn">
-                            <span class="material-symbols-outlined">zoom_out</span>
-                        </button>
-                        <button class="zoom-btn">
-                            <span class="material-symbols-outlined">zoom_in</span>
-                        </button>
+                        <button class="zoom-btn"><span class="material-symbols-outlined">zoom_out</span></button>
+                        <button class="zoom-btn"><span class="material-symbols-outlined">zoom_in</span></button>
                     </div>
                 </div>
             </div>
+        
             <div class="zone-image-box">
                 <p>click on the picture 4 points to create Solar Cells zone</p>
                 <div class="zoom-wrapper">
-                    <img src="{% static 'images/4pointpic.png' %}">
+                    {% if uploaded_files|length >= 1 %}
+                        <img src="{{ uploaded_files.0.file.url }}">
+                    {% else %}
+                        <img src="{% static 'images/4pointpic.png' %}">
+                    {% endif %}
                     <div class="zoom-controls">
-                        <button class="zoom-btn">
-                            <span class="material-symbols-outlined">zoom_out</span>
-                        </button>
-                        <button class="zoom-btn">
-                            <span class="material-symbols-outlined">zoom_in</span>
-                        </button>
+                        <button class="zoom-btn"><span class="material-symbols-outlined">zoom_out</span></button>
+                        <button class="zoom-btn"><span class="material-symbols-outlined">zoom_in</span></button>
                     </div>
                 </div>
             </div>
         </div>
+        
+        
 
         <div class="zone-table-group">
             <div class="zone-table-box">
@@ -102,14 +204,21 @@
                 </table>
             </div>
 
-            <div class="zone-confirm">
-                <label for="zone-name">Zone name</label>
-                <input type="text" id="zone-name" placeholder="Please type a zone name">
-                <button type="button" class="confirm-btn">Confirm</button>
+            <form id="zone-form" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="plant_id" value="{{ plant_id }}">
+                <input type="hidden" name="date" value="{{ date }}">
+                <div class="zone-confirm">
+                    <label for="zone-name">Zone name</label>
+                    <input type="text" name="zone_name" id="zone-name" placeholder="Please type a zone name">
+                </div>
+            </form>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="submit" form="zone-form" class="submit-btn">Submit</button>
             </div>
+            
 
-        </div>
-        <button type="submit" class="submit-btn">Submit</button>
 
 </body>
 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/myteamadmin.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+
+ 
+        .top-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #547D54;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 5px 20px;
+            z-index: 1000;
+        }
+        
+        
+        .upload-button,
+        .user-button {
+            display: inline-flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #547D54;
+            border: none;
+            border-radius: 8px;
+            padding: 0px 15px;
+            margin-left: 10px;
+            height: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .home-button:hover,
+        .role-button:hover,
+        .upload-button:hover,
+        .user-button:hover {
+            background-color: #FFEE59;
+            color: #547D54;
+        }
+        
+        .home-button:active,
+        .role-button:active,
+        .upload-button:active,
+        .user-button:active {
+            background-color: #DCCE52;
+        }
+        
+        .upload-button .material-symbols-outlined,
+        .user-button .material-symbols-outlined {
+            margin-right: 10px;
+        }
+        
+        .upload-button p,
+        .user-button p {
+            font-size: 16px;
+            color: #ffffff;
+            font-family: inherit;
+            margin: 0;
+        }
+        
+        .user-button p {
+            text-decoration: underline;
+        }
+        
+        
+        .upload-button {
+            background-color: #547D54;
+            font-weight: bold;
+            padding: 0px 15px;
+            height: 40px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+        }
+        .upload-button:hover {
+            background-color: #FFEE59;
+            color: #547D54;
+        }
+        .upload-button p {
+            margin: 0;
+            font-size: 16px;
+            color: white;
+        }
+        
+        
+            </style>
+</head>
+
+<body>
+    <div class="container">
+        {% include 'top_bar.html' %}
+        <div class="welcome-bar">
+            <div class="welcome-message">
+                <a href="/home" class="welcome-message-link">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    My Team
+                </a>   
+            </div>
+        </div>
+        <div class="team-grid">
+            {% for profile in team_profiles %}
+            <div class="team-card">
+                <span class="material-symbols-outlined profile-icon">account_circle</span>
+                <div class="member-info">
+                    <div class="member-name">
+                        {{ profile.user.get_full_name|default:profile.user.username }}
+                        {% if profile.user == request.user %}(You){% endif %}
+                    </div>
+                    <div class="member-role">
+                        <span class="role-type">Member</span>
+                        <span class="divider"> / </span>
+                        <span class="role-name">{{ profile.get_roles_display }}</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No team members found for this plant.</p>
+            {% endfor %}
+        </div>        
+    </div>
+</body>
+
+</html>

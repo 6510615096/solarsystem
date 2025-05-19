@@ -15,6 +15,43 @@ body {
     color: #324A32;
     font-weight: bold;
 }
+.upload-section {
+    background-color: #eee;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.upload-area {
+    border: 2px dashed #aaa;
+    padding: 20px;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: auto;
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+#fileList {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+}
+
+.preview-image {
+    max-width: 80%;
+    max-height: 180px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
 
 .top-bar {
     width: 100%;
@@ -178,13 +215,16 @@ body {
 }
 
 .confirm-btn {
-    padding: 10px 20px;
-    background-color: #e6c94d;
+    background-color: #DCCE52;
     color: black;
     font-weight: bold;
     border: none;
     border-radius: 10px;
+    padding: 10px 20px;
     cursor: pointer;
+    width: 100%;
+    max-width: 150px;
+    text-align: center;
 }
 
 .confirm-btn:hover {
@@ -250,7 +290,9 @@ body {
 }
 
 .zone-confirm {
-    width: 35%;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
     background: #ffffff;
     padding: 20px;
     border-radius: 12px;
@@ -258,7 +300,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    align-items: center; 
 }
+
 
 .zone-confirm label {
     font-weight: bold;
@@ -267,10 +311,13 @@ body {
 }
 
 .zone-confirm input {
+    width: 100%;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #ccc;
+    font-size: 16px;
 }
+
 
 .confirm-btn {
     background-color: #DCCE52;
@@ -280,10 +327,11 @@ body {
     border-radius: 10px;
     padding: 10px 20px;
     cursor: pointer;
-    width: 50%;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 150px;
     text-align: center;
 }
+
 
 .confirm-btn:hover {
     background-color: #b4a947;
@@ -324,14 +372,16 @@ body {
     padding-bottom: 60px;
 }
 
-.header-row {
+.header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin: 30px 50px 0 50px;
-    font-size: 24px;
-    font-weight: bold;
+    gap: 10px;
     color: #324A32;
+    margin-left: 20px;
+}
+
+.header h2 {
+    margin: 0;
 }
 
 .back-arrow {

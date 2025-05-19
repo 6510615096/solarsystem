@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/uploadfile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .upload-section {
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .upload-area {
+            border: 2px dashed #aaa;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            max-width: 400px;
+            margin: auto;
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        #fileList {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%; 
+        }
+
+        .preview-image {
+            max-width: 80%;
+            max-height: 180px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .message-container {
+            margin: 20px auto;
+            width: fit-content;
+            text-align: center;
+            z-index: 999;
+        }
+        .alert {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeOut 4s ease-in-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        .top-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #547D54;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 5px 20px;
+            z-index: 1000;
+        }
+        .upload-button,
+        .user-button {
+            display: inline-flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #547D54;
+            border: none;
+            border-radius: 8px;
+            padding: 0px 15px;
+            margin-left: 10px;
+            height: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .upload-button:hover,
+        .user-button:hover {
+            background-color: #FFEE59;
+            color: #547D54;
+        }
+        .upload-button .material-symbols-outlined,
+        .user-button .material-symbols-outlined {
+            margin-right: 10px;
+        }
+        .upload-button p,
+        .user-button p {
+            margin: 0;
+            font-size: 16px;
+            color: white;
+        }
+        .user-button p {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="message {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="container">
+        {% include 'top_bar.html' with user_roles=user_roles %}
+
+        <div class="welcome-bar">
+            <div class="welcome-message">Upload files</div>
+        </div>
+
+        <form class="twoside" method="POST" enctype="multipart/form-data" action="{% url 'solarapp:uploadfile' %}">
+            {% csrf_token %}
+            <a href="{% url 'solarapp:home' %}">
+                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+            </a>
+
+            <div class="upload-section">
+                <h3>Upload File</h3>
+                <div class="upload-area" id="uploadArea">
+                    <span class="material-symbols-outlined upload-icon">cloud_upload</span>
+                    <p>Drag & Drop files here or</p>
+                    <button type="button" class="browse-button" onclick="document.getElementById('fileInput').click()">Browse files</button>
+                    <input type="file" id="fileInput" name="uploaded_files" multiple required style="display: none;">
+                    <div id="fileList"></div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-left">
+                    <label for="plant">Select a solar plant</label>
+                    <select id="plant" name="plant" required>
+                        <option value="" disabled {% if not selected_plant_id %}selected{% endif %}>
+                            select a solar plant from the list
+                        </option>
+                        {% for plant in solar_plants %}
+                            <option value="{{ plant.id }}" {% if plant.id|stringformat:"s" == selected_plant_id %}selected{% endif %}>
+                                {{ plant.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time">
+
+                    <label for="weather">Weather:</label>
+                    <input type="text" id="weather" name="weather" placeholder="Weather">
+
+                    <label for="temperature">Temperature (°C):</label>
+                    <input type="number" id="temperature" name="temperature" placeholder="temperature in degree celsius">
+                </div>
+
+                <div class="form-right">
+                    <label>Select Date:</label>
+                    <div class="calendar-wrapper">
+                        <input type="text" id="inline-calendar" name="collected_date" required>
+                    </div>
+
+                    <button type="submit" class="next-button">Next</button>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            const uploadArea = document.getElementById('uploadArea');
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4CAF50';
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#aaa';
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#aaa';
+                handleFiles(e.dataTransfer.files);
+            });
+            fileInput.addEventListener('change', function(e) {
+                handleFiles(e.target.files);
+            });
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelectorAll('.upload-icon, .upload-area p, .browse-button').forEach(el => {
+                            el.style.display = 'none';
+                        });
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.classList.add('preview-image');
+                        fileList.innerHTML = '';
+                        fileList.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            function goToUploadZone() {
+                const plantId = document.getElementById('plant').value;
+                const date = document.getElementById('inline-calendar').value;
+                if (!plantId || !date) {
+                    alert("Please select both plant and date before continuing.");
+                    return;
+                }
+                window.location.href = `/uploadzone/?plant_id=${plantId}&date=${date}`;  // ✅ ต้องมี &date=
+            }
+
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr("#inline-calendar", {
+                inline: true,
+                dateFormat: "Y-m-d"
+            });
+        </script>
+    </div>
+</body>
+</html>
