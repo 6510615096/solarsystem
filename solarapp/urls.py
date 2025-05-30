@@ -9,6 +9,7 @@ app_name = "solarapp"
 urlpatterns = [
     path("", views.login_request, name="login"),
     path("register/", views.register, name="register"),
+    
     path("home/", views.home , name="home"),
     path("profile/", views.profile_view, name="profile"),
     path("logout/", views.logout, name="logout"),
@@ -29,7 +30,7 @@ urlpatterns = [
     path("account-pending/", views.account_pending, name="account_pending"),
     path("auth-error/", views.social_auth_error, name="auth_error"),
     path('plant/<int:plant_id>/view_uploaded/', views.view_uploaded, name='view_uploaded'),
-
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

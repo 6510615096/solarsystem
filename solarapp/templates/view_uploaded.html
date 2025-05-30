@@ -9,13 +9,67 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/view_uploaded.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        .welcome-bar {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+        }
+        .welcome-message-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+            transition: color 0.3s;
+        }
+
+        .welcome-message-link:hover {
+            color: #8CD58C;
+        }
+
+        .welcome-message-link .material-symbols-outlined {
+            font-size: 20px; 
+        }
+        .button-group {
+        display: flex;
+        justify-content: center; /* จัดให้อยู่กลางแนวนอน */
+        margin-top: 30px;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        background-color: #547D54;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+            
+        background-color: #FFEE59;
+        color: #547D54;
+
+    }
+
+    </style>
 </head>
 <body>
     {% include 'top_bar.html' with user_roles=user_roles %}
-
+    <div class="welcome-bar">
+        <a href="/home" class="welcome-message-link">
+            <span class="material-symbols-outlined">arrow_back</span>
+            back
+        </a>
+    </div>
+    
     <h2>Uploaded Data for {{ plant.name }}</h2>
-
-
     {% if uploaded_images %}
         <table class="uploaded-table">
             <thead>
@@ -48,11 +102,12 @@
     {% else %}
         <p>No uploaded data available for this plant.</p>
     {% endif %}
-
     <div class="button-group">
-        <a href="{% url 'solarapp:uploadfile' %}?plant_id={{ plant.id }}">
-            <button class="submit-btn">Upload Photo</button>
-        </a>
+        <button class="submit-btn" type="button" data-url="{% url 'solarapp:uploadfile' %}?plant_id={{ plant.id }}" onclick="window.location.href=this.dataset.url;">
+            Upload Photo
+        </button>
     </div>
+    
+    
 </body>
 </html>

@@ -45,9 +45,6 @@ def home(request):
         role_names = [role.name for role in profile.roles.all()]
     else:
         role_names = []
-    if request.user.is_authenticated:
-        profile, _ = UserProfile.objects.get_or_create(user=request.user)
-        role_names = [role.name for role in profile.roles.all()]
 
     return render(request, 'home.html', {
         'plant_admin_data': plant_admin_data, 
@@ -449,12 +446,11 @@ def uploadzone(request):
     })
 
 
-
 def view_uploaded(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
     uploaded_images = plant.uploaded_files.order_by('-uploaded_at')
-
     return render(request, 'view_uploaded.html', {
         'plant': plant,
-        'uploaded_images': uploaded_images
+        'uploaded_images': uploaded_images,
     })
+
