@@ -8,6 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Solar Cell Maintenance System</title>
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <style>
+        .alert-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #f44336;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideIn 0.3s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -15,9 +38,9 @@
         <h1 class="register-title">Register</h1>
         <div class="register-container">
             
-            <form class="register-form" action="{% url 'solarapp:register' %}" method="post">
+            <form class="register-form" action="{% url 'solarapp:register' %}" method="post" 
+                data-errors="{{ form.errors.items|safe }}">
                 {% csrf_token %}
-                {{ form.errors }}
                 
                 <div class="input-group name-container">
                     <div>
@@ -35,13 +58,11 @@
                     {{ form.username }}
                 </div>
                 
-                {{ form.password1.errors }}
                 <div class="input-group">
                     <label for="password1">Password</label>
                     {{ form.password1 }}
                 </div>
                 
-                {{ form.password2.errors }}
                 <div class="input-group">
                     <label for="password2">Confirm Password</label>
                     {{ form.password2 }}
@@ -59,8 +80,31 @@
             
             <p class="or-login">Already have an account? <a href="{% url 'solarapp:login' %}">Login</a></p>
         </div>
-</div>
+    </div>
 
+    <script>
+        function showError(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert-popup';
+            alert.textContent = message;
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const formErrors = document.querySelector('.register-form').dataset.errors;
+            if (formErrors && formErrors !== '[]') {
+                const errors = Array.from(formErrors.matchAll(/\('([^']+)', \[.*?'([^']+)'.*?\]\)/g));
+                errors.forEach(([, field, error]) => {
+                    showError(`${field}: ${error}`);
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
