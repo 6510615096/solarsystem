@@ -18,7 +18,7 @@ from .models import SolarPlant, UserProfile, Role, UploadedFile
 
 # Create your views here.
 
-#@login_required
+@login_required
 def home(request):
     from django.contrib.auth.models import User
     from solarapp.models import UserProfile, Role
