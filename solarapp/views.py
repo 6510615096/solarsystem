@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, SolarPlantForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -17,6 +18,7 @@ from .models import SolarPlant, UserProfile, Role, UploadedFile
 
 # Create your views here.
 
+#@login_required
 def home(request):
     from django.contrib.auth.models import User
     from solarapp.models import UserProfile, Role
@@ -52,7 +54,7 @@ def home(request):
 
 def create_user_profile(backend, user, response, *args, **kwargs):
     from solarapp.models import UserProfile
-
+    
     # Check if this is a new user profile creation
     if not hasattr(user, 'profile'):
         UserProfile.objects.create(user=user)
@@ -60,10 +62,14 @@ def create_user_profile(backend, user, response, *args, **kwargs):
         if not user.is_superuser:
             user.is_active = False
             user.save()
-
-    # Always check for roles, regardless of whether the user is new or existing
+            raise PermissionDenied("Your account has been created and is pending admin approval.")
+    
+    # For existing users, check if they have roles
     if not user.profile.roles.exists():
-        raise PermissionDenied("Your account is pending approval. An admin will assign roles before you can login.")
+        if not user.is_active:  # If account exists but not active
+            raise PermissionDenied("Your account is pending admin approval.")
+        else:  # If account exists and is active, but no roles
+            raise PermissionDenied("Please contact an administrator to assign roles to your account.")
 
 def account_pending(request):
     messages.warning(request, "Your account has been created but is pending approval. Please wait for admin approval.")
@@ -96,11 +102,11 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})
 
-def logout(request):
-    from django.contrib.auth import logout as auth_logout
-    auth_logout(request)
-    list(messages.get_messages(request))  
-    return redirect('social:begin', backend='google-oauth2')
+def logout_view(request):
+    logout(request)
+    # Clear all messages
+    list(messages.get_messages(request))
+    return redirect('solarapp:login')
 
 """""
 def home(request):
@@ -125,7 +131,7 @@ def detail(request):
     }
     return render(request, 'detail.html', context)
 """
-
+@login_required
 def detail(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
 
@@ -216,6 +222,7 @@ def login_request(request):
 
 
 
+@login_required
 def profile_view(request):
     user = request.user
     if request.method == 'POST':
@@ -227,6 +234,7 @@ def profile_view(request):
     return render(request, 'profile.html', {'user': user})
 
 
+@login_required
 def addnewsolar(request):
     if request.method == 'POST':
         form = SolarPlantForm(request.POST)
@@ -238,6 +246,7 @@ def addnewsolar(request):
 
     return render(request, 'addnewsolar.html', {'form': form})
 
+@login_required
 def detail_perf(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
 
@@ -245,6 +254,7 @@ def detail_perf(request, plant_id):
         'plant': plant,
     })
 
+@login_required
 def role_manage(request):
     user_profiles = UserProfile.objects.select_related('user').prefetch_related('roles').order_by('user__id')
     roles = Role.objects.exclude(name='Root Admin')
@@ -261,6 +271,7 @@ def role_manage(request):
         'user_roles': role_names,
     })
 
+@login_required
 def update_user_role(request, profile_id):
     if request.method == 'POST':
         profile = get_object_or_404(UserProfile, id=profile_id)
@@ -269,6 +280,7 @@ def update_user_role(request, profile_id):
         profile.save()
     return redirect('solarapp:role_manage')
 
+@login_required
 def update_user_plant(request, profile_id):
     if request.method == 'POST':
         profile = get_object_or_404(UserProfile, id=profile_id)
@@ -277,6 +289,7 @@ def update_user_plant(request, profile_id):
         profile.save()
     return redirect('solarapp:role_manage')
 
+@login_required
 def myteamadmin(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
     team_profiles = UserProfile.objects.filter(assigned_plants=plant).select_related('user').prefetch_related('roles')
@@ -291,6 +304,7 @@ def myteamadmin(request, plant_id):
         'team_profiles': sorted_profiles
     })
 
+@login_required
 def editsolar(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
     uploaded_images = plant.uploaded_files.filter(file__iendswith=('.jpg', '.jpeg', '.png'))
@@ -323,6 +337,7 @@ def editsolar(request, plant_id):
     })
 
 
+@login_required
 def uploadfile(request):
     user_profiles = UserProfile.objects.select_related('user').prefetch_related('roles').order_by('user__id')
     roles = Role.objects.exclude(name='Root Admin')
@@ -380,6 +395,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import UploadedFile, SolarPlant
 
+@login_required
 def uploadzone(request):
     if request.method == 'POST':
         plant_id = request.GET.get('plant_id') or request.POST.get('plant_id')
@@ -426,6 +442,7 @@ def uploadzone(request):
     })
 
 
+@login_required
 def view_uploaded(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
     uploaded_images = plant.uploaded_files.order_by('-uploaded_at')
