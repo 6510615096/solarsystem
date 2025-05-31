@@ -136,34 +136,23 @@ def detail(request):
     return render(request, 'detail.html', context)
 """
 
-
 def detail(request, plant_id):
     plant = get_object_or_404(SolarPlant, id=plant_id)
-
 
     admins = UserProfile.objects.filter(assigned_plants=plant)
     admin_info = [f"{user.user.get_full_name()} [{user.user.email}]" for user in admins]
 
-
-    can_edit = False
-    can_delete = False
-
-    if request.user.is_authenticated:
-        profile, _ = UserProfile.objects.get_or_create(user=request.user)
-        role_names = [role.name.lower() for role in profile.roles.all()]
-        if "admin" in role_names:
-            can_edit = True
-            can_delete = True
-        elif "admin solar" in role_names and profile.assigned_plants.filter(id=plant.id).exists():
-            can_edit = True
-
+ 
+    strategy = get_role_strategy(request.user)
+    can_edit = strategy.can_edit(request.user, plant)
+    can_delete = strategy.can_delete(request.user, plant)
 
     if request.method == 'POST':
-        if 'delete' in request.POST:
+        if 'delete' in request.POST and can_delete:
             plant.delete()
             messages.success(request, "Solar plant deleted successfully.")
             return redirect('solarapp:home')
-        else:
+        elif can_edit:
             plant.name = request.POST.get('name', plant.name)
             plant.weather = request.POST.get('weather', plant.weather)
             plant.temperature = request.POST.get('temperature', plant.temperature)
@@ -185,8 +174,9 @@ def detail(request, plant_id):
             plant.save()
             messages.success(request, "Solar plant updated successfully.")
             return redirect('solarapp:detail', plant_id=plant.id)
+        else:
+            messages.error(request, "You don't have permission to update this plant.")
 
-    # ใช้ข้อมูล mock สำหรับ performance (หรือดึงจาก model ได้ถ้ามี)
     zone_a_performance = [100, 100, 20, 50, 100, 20, 50, 100, 45, 100, 50, 100, 100, 20, 30, 40]
     zone_b_performance = [100, 50, 20, 100, 100, 50, 20, 100, 100, 40, 100, 50, 30, 20, 30, 40]
 
@@ -198,6 +188,7 @@ def detail(request, plant_id):
         'can_edit': can_edit,
         'can_delete': can_delete,
     })
+
 
 def login_request(request):
     form = AuthenticationForm(request, data=request.POST or None)
@@ -453,4 +444,42 @@ def view_uploaded(request, plant_id):
         'plant': plant,
         'uploaded_images': uploaded_images,
     })
+
+
+class RoleStrategy:
+    def can_edit(self, user, plant):
+        return False
+
+    def can_delete(self, user, plant):
+        return False
+
+
+class AdminStrategy(RoleStrategy):
+    def can_edit(self, user, plant):
+        return True
+
+    def can_delete(self, user, plant):
+        return True
+
+
+class AdminSolarStrategy(RoleStrategy):
+    def can_edit(self, user, plant):
+        return plant in user.profile.assigned_plants.all()
+
+    def can_delete(self, user, plant):
+        return False
+
+
+def get_role_strategy(user):
+    if not user.is_authenticated:
+        return RoleStrategy()
+
+    role_names = [role.name.lower() for role in user.profile.roles.all()]
+
+    if "admin" in role_names:
+        return AdminStrategy()
+    elif "admin solar" in role_names:
+        return AdminSolarStrategy()
+
+    return RoleStrategy()
 
