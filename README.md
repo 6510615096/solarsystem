@@ -7,6 +7,7 @@
 6510685057 นางสาวญาณัชทัฬห์  คงกระจ่าง  
   
 deploy on pythonanywhere : https://solar332tu.pythonanywhere.com/
+
 presentation : https://www.canva.com/design/DAGglG0MoeE/y0kvqJdqPZKok6UFdiUyFg/edit?utm_content=DAGglG0MoeE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 class diagram(login) and factory pattern , strategy pattern ,bridge pattern
