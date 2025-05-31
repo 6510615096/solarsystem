@@ -54,18 +54,16 @@ def create_user_profile(backend, user, response, *args, **kwargs):
     from solarapp.models import UserProfile
 
     # Check if this is a new user profile creation
-    profile_created = False
     if not hasattr(user, 'profile'):
         UserProfile.objects.create(user=user)
-        profile_created = True
+        # For new users, always set as inactive unless they're superuser
+        if not user.is_superuser:
+            user.is_active = False
+            user.save()
 
-    # Only set is_active to False if this is a new user
-    if profile_created and not user.is_superuser:
-        user.is_active = False
-        user.save()
-
+    # Always check for roles, regardless of whether the user is new or existing
     if not user.profile.roles.exists():
-        raise PermissionDenied("Your account has been created but is pending approval. An admin will assign roles.")
+        raise PermissionDenied("Your account is pending approval. An admin will assign roles before you can login.")
 
 def account_pending(request):
     messages.warning(request, "Your account has been created but is pending approval. Please wait for admin approval.")
@@ -83,14 +81,16 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            
+            # Create user but don't log them in
             user = form.save(commit=False)
-            user.is_active = False
+            user.is_active = False  # Set as inactive by default
             user.save()
 
-            UserProfile.objects.create(user=user)  
-            messages.success(request, "Your account has been created but is pending approval. An administrator will review your account and assign appropriate roles before you can log in.")
-            return redirect('solarapp:login')  
+            # Create user profile
+            UserProfile.objects.create(user=user)
+
+            messages.success(request, "Your account has been created but is pending approval. An admin will assign roles before you can login.")
+            return redirect('solarapp:login')
     else:
         form = CustomUserCreationForm()
 
