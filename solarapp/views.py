@@ -308,11 +308,12 @@ def editsolar(request, plant_id):
 
     can_delete = False
 
+    can_delete = False
+
     if request.user.is_authenticated:
-        profile, _ = UserProfile.objects.get_or_create(user=request.user)
-        role_names = [role.name.lower() for role in profile.roles.all()]
-        if "admin" in role_names:
-            can_delete = True
+        strategy = get_role_strategy(request.user)
+        can_delete = strategy.can_delete(request.user, plant)
+
 
     if request.method == 'POST':
         if 'delete' in request.POST:
