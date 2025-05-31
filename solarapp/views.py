@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -51,20 +50,22 @@ def home(request):
         'user_roles': role_names,
     })
 
-def create_user_profile(backend, user=None, request=None, *args, **kwargs):
-    if user is None:
-        return
-    if request and isinstance(get_user(request), User) and get_user(request).is_superuser:
-        raise PermissionDenied("Please logout from your admin account before signing up with Google.")
+def create_user_profile(backend, user, response, *args, **kwargs):
+    from solarapp.models import UserProfile
 
-    profile, created = UserProfile.objects.get_or_create(user=user)
+    # Check if this is a new user profile creation
+    profile_created = False
+    if not hasattr(user, 'profile'):
+        UserProfile.objects.create(user=user)
+        profile_created = True
 
-    if not user.is_superuser:
+    # Only set is_active to False if this is a new user
+    if profile_created and not user.is_superuser:
         user.is_active = False
         user.save()
 
     if not user.profile.roles.exists():
-        raise PermissionDenied("Your account has been created but is pending approval.")
+        raise PermissionDenied("Your account has been created but is pending approval. An admin will assign roles.")
 
 def account_pending(request):
     messages.warning(request, "Your account has been created but is pending approval. Please wait for admin approval.")
@@ -73,17 +74,6 @@ def account_pending(request):
 def social_auth_error(request, *args, **kwargs):
     messages.error(request, "You must be approved by admin before using your account.")
     return redirect('solarapp:login')
-
-def create_user_profile(backend, user, response, *args, **kwargs):
-    from solarapp.models import UserProfile
-
-    if not hasattr(user, 'profile'):
-        UserProfile.objects.create(user=user)
-    if not user.is_superuser:
-        user.is_active = False
-        user.save()
-    if not user.profile.roles.exists():
-        raise PermissionDenied("Your account has been created but is pending approval. An admin will assign roles.")
 
 def prevent_social_linking_to_superuser(backend, user, *args, **kwargs):
     if user and user.is_superuser:
@@ -481,4 +471,18 @@ def get_role_strategy(user):
         return AdminSolarStrategy()
 
     return RoleStrategy()
+
+def get_user_by_email_if_exists(backend, details, user=None, *args, **kwargs):
+    if user:
+        return None
+    
+    email = details.get('email')
+    if email:
+        try:
+            existing_user = User.objects.get(email=email)
+            if existing_user:
+                return {'user': existing_user, 'is_new': False}
+        except User.DoesNotExist:
+            pass
+    return None
 
