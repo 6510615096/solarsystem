@@ -11,6 +11,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        .alert-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #f44336;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideIn 0.3s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -23,12 +46,12 @@
             <button onclick="closePopup()">OK</button>
         </div>
         </div>
-        {% endif %}
+    {% endif %}
     <div class="container">
         <!-- <div class="background-div"></div> -->
         <h1>Solar Cell Maintenance System</h1>
         <div class="login-container">
-            <form method="post">
+            <form method="post" data-errors="{{ form.errors.items|safe }}">
                 {% csrf_token %}
                 <div class="input-group">
                     <label for="id_username">E-mail:</label>
@@ -59,6 +82,28 @@
         function closePopup() {
             document.querySelector('.popup-overlay').style.display = 'none';
         }
+
+        function showError(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert-popup';
+            alert.textContent = message;
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const formErrors = document.querySelector('form').dataset.errors;
+            if (formErrors && formErrors !== '[]') {
+                const errors = Array.from(formErrors.matchAll(/\('([^']+)', \[.*?'([^']+)'.*?\]\)/g));
+                errors.forEach(([, field, error]) => {
+                    showError(`${field}: ${error}`);
+                });
+            }
+        });
     </script>
 </body>
 
