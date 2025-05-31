@@ -308,8 +308,6 @@ def editsolar(request, plant_id):
 
     can_delete = False
 
-    can_delete = False
-
     if request.user.is_authenticated:
         strategy = get_role_strategy(request.user)
         can_delete = strategy.can_delete(request.user, plant)
