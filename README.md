@@ -13,7 +13,10 @@ deploy on pythonanywhere : https://solar332tu.pythonanywhere.com/
 
 final presentation : https://www.canva.com/design/DAGglG0MoeE/y0kvqJdqPZKok6UFdiUyFg/edit?utm_content=DAGglG0MoeE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
+
 รวม assignment ภายใน class
+
+user experience and user interface design : https://goo.gd/rdka8
 
 conceptual design : https://drive.google.com/file/d/102cynv5RgoNf9qTTemnT4V4KpQRv3ygt/view?usp=sharing
 
