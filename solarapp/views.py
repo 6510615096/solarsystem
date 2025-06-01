@@ -14,24 +14,40 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user
 from django.contrib.auth.models import AnonymousUser
 from .models import SolarPlant, UserProfile, Role, UploadedFile
+from django.db.models import Q
 
 
 # Create your views here.
 
 @login_required
 def home(request):
-    from django.contrib.auth.models import User
-    from solarapp.models import UserProfile, Role
+    search = request.GET.get('plant_name', '').strip()
+    status = request.GET.get('status', '').strip()
+    sort = request.GET.get('sort', '').strip()
 
-    solar_plants = SolarPlant.objects.all()
+    queryset = SolarPlant.objects.all()
+
+    # ✅ ค้นหา (search) ทั้ง id และ name
+    if search:
+        if search.isdigit():
+            queryset = queryset.filter(id=int(search))
+        else:
+            queryset = queryset.filter(name__icontains=search)
+
+    # ✅ กรองตามสถานะ
+    if status:
+        queryset = queryset.filter(status__iexact=status)
+
+    # เตรียมข้อมูลแสดงผลแบบมี admin และไฟล์
     plant_admin_data = []
     admin_role = Role.objects.get(name="Admin solar")
 
-    for plant in solar_plants:
+    for plant in queryset:
         admins = UserProfile.objects.filter(
             assigned_plants=plant,
             roles=admin_role
         ).distinct()
+
         admin_names = [admin.user.get_full_name() or admin.user.username for admin in admins]
         has_uploaded_file = UploadedFile.objects.filter(plant=plant).exists()
 
@@ -41,16 +57,25 @@ def home(request):
             'has_uploaded_file': has_uploaded_file,
         })
 
+    # ✅ เรียงลำดับตาม id
+    if sort == "id_asc":
+        plant_admin_data.sort(key=lambda x: x['plant'].id)
+    elif sort == "id_desc":
+        plant_admin_data.sort(key=lambda x: x['plant'].id, reverse=True)
+
+    # ✅ ส่ง role ของ user ไปให้ template ด้วย
+    role_names = []
     if request.user.is_authenticated:
         profile, _ = UserProfile.objects.get_or_create(user=request.user)
         role_names = [role.name for role in profile.roles.all()]
-    else:
-        role_names = []
 
     return render(request, 'home.html', {
-        'plant_admin_data': plant_admin_data, 
+        'plant_admin_data': plant_admin_data,
         'user_roles': role_names,
     })
+
+
+
 
 def create_user_profile(backend, user, response, *args, **kwargs):
     from solarapp.models import UserProfile
@@ -503,32 +528,3 @@ def get_user_by_email_if_exists(backend, details, user=None, *args, **kwargs):
             pass
     return None
 
-def home_view(request):
-    query = SolarPlant.objects.all()
-
-    plant_name = request.GET.get('plant_name', '').strip()
-    status = request.GET.get('status', '').strip()
-    sort = request.GET.get('sort', '').strip()
-
-    if plant_name:
-        query = query.filter(name__icontains=plant_name)
-    if status:
-        query = query.filter(status__iexact=status)
-
-    plant_admin_data = []
-    for plant in query:
-        admin = plant.owner.get_full_name() if hasattr(plant, 'owner') else ""
-        plant_admin_data.append({
-            "plant": plant,
-            "admin_name": admin,
-            "has_uploaded_file": plant.uploadedfile_set.exists()
-        })
-
-    if sort == "id_asc":
-        plant_admin_data.sort(key=lambda x: x['plant'].id)
-    elif sort == "id_desc":
-        plant_admin_data.sort(key=lambda x: x['plant'].id, reverse=True)
-
-    return render(request, 'home.html', {
-        'plant_admin_data': plant_admin_data
-    })

@@ -183,3 +183,26 @@ tr:nth-child(odd) {
     text-decoration: none;
     color: #000000;
 }
+.apply-button {
+    background-color: #547D54;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+    background-color: #FFEE59;
+    color: #547D54;
+}
+
+.apply-button:active {
+    background-color: #DCCE52;
+}

@@ -16,6 +16,11 @@ class Role(models.Model):
 
 
 class SolarPlant(models.Model):
+    STATUS_CHOICES = [
+        ("In process", "In process"),
+        ("Completed", "Completed"),
+        ("Delayed", "Delayed"),
+    ]
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='owned_plants')
     collected_at = models.DateTimeField(null=True, blank=True)
@@ -32,6 +37,12 @@ class SolarPlant(models.Model):
     properties = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     assigned_users = models.ManyToManyField(User, related_name='plants', blank=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="In process",
+    )
 
     def __str__(self):
         return self.name
