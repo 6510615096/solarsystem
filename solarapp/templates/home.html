@@ -105,21 +105,38 @@
     <div class="container">
         {% include 'top_bar.html' with user_roles=user_roles %}
 
-        <div class="welcome-bar">
+        <form method="get" class="welcome-bar" style="display: flex; justify-content: space-between; align-items: center;">
             <div class="welcome-message">
                 Welcome user, here are your tasks for today!
             </div>
-            <div class="sort-filter-search">
-                <button class="sort-button">sort</button>
-                <button class="filter-button">
-                    <p>filter</p>
-                    <span class="material-symbols-outlined">filter_alt</span>
-                </button>
+        
+            <div class="sort-filter-search" style="display: flex; gap: 10px;">
+                <!-- Sort Dropdown -->
+                <select name="sort" class="sort-button">
+                    <option value="">Sort</option>
+                    <option value="id_asc" {% if request.GET.sort=='id_asc' %}selected{% endif %}>ID: Low → High</option>
+                    <option value="id_desc" {% if request.GET.sort=='id_desc' %}selected{% endif %}>ID: High → Low</option>
+                </select>
+        
+                <!-- Filter Dropdown -->
+                <select name="status" class="filter-button">
+                    <option value="">Filter by Status</option>
+                    <option value="In process" {% if request.GET.status=='In process' %}selected{% endif %}>In process</option>
+                    <option value="Completed" {% if request.GET.status=='Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Delayed" {% if request.GET.status=='Delayed' %}selected{% endif %}>Delayed</option>
+                </select>
+        
+                <!-- Search Input -->
                 <div class="search-container">
-                    <input type="text" class="search-input" placeholder="search a solar plant">
+                    <input type="text" name="plant_name" class="search-input" placeholder="Search a solar plant"
+                        value="{{ request.GET.plant_name }}">
                 </div>
+        
+                <!-- Submit -->
+                <button type="submit">Apply</button>
             </div>
-        </div>
+        </form>
+        
 
         <table>
             <thead>

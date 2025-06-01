@@ -503,3 +503,32 @@ def get_user_by_email_if_exists(backend, details, user=None, *args, **kwargs):
             pass
     return None
 
+def home_view(request):
+    query = SolarPlant.objects.all()
+
+    plant_name = request.GET.get('plant_name', '').strip()
+    status = request.GET.get('status', '').strip()
+    sort = request.GET.get('sort', '').strip()
+
+    if plant_name:
+        query = query.filter(name__icontains=plant_name)
+    if status:
+        query = query.filter(status__iexact=status)
+
+    plant_admin_data = []
+    for plant in query:
+        admin = plant.owner.get_full_name() if hasattr(plant, 'owner') else ""
+        plant_admin_data.append({
+            "plant": plant,
+            "admin_name": admin,
+            "has_uploaded_file": plant.uploadedfile_set.exists()
+        })
+
+    if sort == "id_asc":
+        plant_admin_data.sort(key=lambda x: x['plant'].id)
+    elif sort == "id_desc":
+        plant_admin_data.sort(key=lambda x: x['plant'].id, reverse=True)
+
+    return render(request, 'home.html', {
+        'plant_admin_data': plant_admin_data
+    })
