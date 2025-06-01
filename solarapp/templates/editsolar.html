@@ -1,118 +1,139 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>edit solar plant</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/editsolar.css' %}">
-    <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
-
-    <style>
-        .message-container {
-            margin: 20px auto;
-            width: fit-content;
-            text-align: center;
-            z-index: 999;
-        }
-        .alert {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            animation: fadeOut 4s ease-in-out forwards;
-        }
-        
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            70% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-10px); }
-        }
-        </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Solar Plant</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/editsolar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+    .message-container {
+      margin: 20px auto;
+      width: fit-content;
+      text-align: center;
+      z-index: 999;
+    }
+    .alert {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeOut 4s ease-in-out forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-10px); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        {% include 'top_bar.html' with user_roles=user_roles %}
-        
-        {% if messages %}
-        <div class="message-container">
-            {% for message in messages %}
-            <div class="alert">{{ message }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        <div class="header">
-            <a href="{% url 'solarapp:home' %}">
-                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
-            </a>
-            <h2>{{ plant.name }}</h2>
-        </div>
+  <div class="container">
+    {% include 'top_bar.html' with user_roles=user_roles %}
 
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-map-group">
-                <div class="form-group-container">
-                    <div class="form-group">
-                        <label for="plant-name">Solar Plant Name <span class="required">*</span></label>
-                        <div class="input-group">
-                            <input type="text" id="plant-name" name="plant-name" value="{{ plant.name }}" readonly>
-                            <button type="button" class="edit-btn" onclick="enableEdit('plant-name')">edit</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="plant-properties">Solar Plant properties</label>
-                        <div class="input-group">
-                            <textarea id="plant-properties" name="plant-properties" rows="4" cols="50" readonly>{{ plant.properties }}</textarea>
-                            <button type="button" class="edit-btn" onclick="enableEdit('plant-properties')">edit</button>
-                        </div>
-                    </div>
-                    {% if can_delete %}
-                    <button type="submit" class="delete-btn" name="delete" onclick="return confirm('Are you sure you want to delete this solar plant?');">
-                        Delete Solar Plant
-                    </button>
-                    {% endif %}
-                                
-                </div>
-                <div class="map-container">
-                    <label for="address">Address <span class="required">*</span></label>
-                    <div class="input-group">
-                        <input type="text" id="address" name="address" value="{{ plant.address }}" readonly />
-                        <button type="button" class="edit-btn" onclick="enableEdit('address')">edit</button>
-                    </div>
-                    <img src="{% static 'images/maps.png' %}" alt="maps">
-                    <button type="button" class="map-btn">Choose This Location</button>
-                    {% if uploaded_images %}
-                    <div class="image-grid">
-                        {% for img in uploaded_images %}
-                        <div class="image-card">
-                            <img src="{{ img.file.url }}" alt="uploaded image">
-                            <p class="image-label">{{ img.weather }} | {{ img.collected_date }}</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="submit-btn" name="save">Submit</button>
-        </form>        
+    {% if messages %}
+    <div class="message-container">
+      {% for message in messages %}
+      <div class="alert">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="header">
+      <a href="{% url 'solarapp:home' %}">
+        <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+      </a>
+      <h2>{{ plant.name }}</h2>
     </div>
 
-    <script>
-        function enableEdit(fieldId) {
-            const field = document.getElementById(fieldId);
-            if (field) {
-                field.removeAttribute('readonly');
-                field.focus();
-            }
-        }
-    </script>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-map-group">
+        <div class="form-group-container">
+          <div class="form-group">
+            <label for="plant-name">Solar Plant Name <span class="required">*</span></label>
+            <div class="input-group">
+              <input type="text" id="plant-name" name="plant-name" value="{{ plant.name }}" readonly>
+              <button type="button" class="edit-btn" onclick="enableEdit('plant-name')">edit</button>
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label for="plant-properties">Solar Plant properties</label>
+            <div class="input-group">
+              <textarea id="plant-properties" name="plant-properties" rows="4" readonly>{{ plant.properties }}</textarea>
+              <button type="button" class="edit-btn" onclick="enableEdit('plant-properties')">edit</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address <span class="required">*</span></label>
+            <div class="input-group">
+              <input type="text" id="address" name="address" value="{{ plant.address }}" readonly />
+              <button type="button" class="edit-btn" onclick="enableEdit('address')">edit</button>
+            </div>
+          </div>
+
+          {% if can_delete %}
+          <button type="submit" class="delete-btn" name="delete" onclick="return confirm('Are you sure you want to delete this solar plant?');">
+            Delete Solar Plant
+          </button>
+          {% endif %}
+        </div>
+
+        <div class="map-container">
+          <div id="map"></div>
+          {% if uploaded_images %}
+          <div class="image-grid">
+            {% for img in uploaded_images %}
+            <div class="image-card">
+              <img src="{{ img.file.url }}" alt="uploaded image">
+              <p class="image-label">{{ img.weather }} | {{ img.collected_date }}</p>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <button type="submit" class="submit-btn" name="save">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script>
+    function enableEdit(fieldId) {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.removeAttribute('readonly');
+        field.focus();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const lat = parseFloat("{{ plant.latitude|default:'13.736717' }}");
+      const lng = parseFloat("{{ plant.longitude|default:'100.523186' }}");
+
+      const map = L.map('map').setView([lat, lng], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      const marker = L.marker([lat, lng]).addTo(map)
+        .bindPopup("{{ plant.name }}").openPopup();
+    });
+  </script>
 </body>
 </html>

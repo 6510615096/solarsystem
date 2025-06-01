@@ -1,82 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add new solar plant</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/addnewsolar.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/top_bar.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add new solar plant</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/addnewsolar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/top_bar.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+    .address-search {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .address-search input {
+      flex: 1;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        {% include 'top_bar.html' %}
-        
-        <div class="header">
-            <a href="{% url 'solarapp:home' %}">
-                <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
-            </a>
-            <h2>Add a new solar plane</h2>
-        </div>
-        
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-map-group">
-                <div class="form-group-container">
-                    <div class="form-group">
-                        <label for="{{ form.name.id_for_label }}">
-                            {{ form.name.label }} <span class="required">*</span>
-                        </label>
-                        {{ form.name }}
-                        {% if form.name.errors %}
-                            <div class="form-error">{{ form.name.errors }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="form-group">
-                        <label for="{{ form.properties.id_for_label }}">
-                            {{ form.properties.label }}
-                        </label>
-                        {{ form.properties }}
-                        {% if form.properties.errors %}
-                            <div class="form-error">{{ form.properties.errors }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="form-group">
-                        <label for="{{ form.invited_emails.id_for_label }}">
-                            {{ form.invited_emails.label }}
-                        </label>
-                        <div class="input-group">
-                            {{ form.invited_emails }}
-                            <button type="button" class="invite-btn">Invite</button>
-                        </div>
-                        {% if form.invited_emails.errors %}
-                            <div class="form-error">{{ form.invited_emails.errors }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="map-container">
-                    <label for="{{ form.address.id_for_label }}">
-                        {{ form.address.label }} <span class="required">*</span>
-                    </label>
-                    {{ form.address }}
-                    {% if form.address.errors %}
-                        <div class="form-error">{{ form.address.errors }}</div>
-                    {% endif %}
-                    <img src="{% static 'images/maps.png' %}" alt="maps">
-                    <button type="button" class="map-btn">Choose This Location</button>
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn">Submit</button>    
-        </form>
+  <div class="container">
+    {% include 'top_bar.html' %}
+    <div class="header">
+      <a href="{% url 'solarapp:home' %}">
+        <span class="material-symbols-outlined" style="cursor:pointer;">arrow_back</span>
+      </a>
+      <h2>Add a new solar plant</h2>
     </div>
 
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-map-group">
+        <div class="form-group-container">
+          <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">
+              {{ form.name.label }} <span class="required">*</span>
+            </label>
+            {{ form.name }}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.properties.id_for_label }}">
+              {{ form.properties.label }}
+            </label>
+            {{ form.properties }}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.invited_emails.id_for_label }}">
+              {{ form.invited_emails.label }}
+            </label>
+            <div class="input-group">
+              {{ form.invited_emails }}
+              <button type="button" class="invite-btn">Invite</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-container">
+          <label for="id_address">Address <span class="required">*</span></label>
+          <div class="address-search">
+            <input type="text" id="id_address" name="address" placeholder="ถนนสวนหลวง ต.มหาสวัสดิ์ อ.บางกรวย จ.นนทบุรี">
+            <button type="button" onclick="searchAddress()">ค้นหา</button>
+          </div>
+          <div id="map"></div>
+        </div>
+      </div>
+
+      <!-- ✅ Hidden fields สำหรับส่งพิกัดกลับ -->
+      <input type="hidden" id="id_latitude" name="latitude">
+      <input type="hidden" id="id_longitude" name="longitude">
+
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script>
+    let map, marker;
+    const mapboxToken = "pk.eyJ1IjoiNTIxMSIsImEiOiJjbWJkZXBqbHMxNmo0MmlxMWZ3amI3enBzIn0.Oxk-kewi3eh5GmdLT5InbQ";
+
+    function initMap() {
+      const defaultLat = 13.736717;
+      const defaultLng = 100.523186;
+
+      map = L.map('map').setView([defaultLat, defaultLng], 13);
+      L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=${mapboxToken}`, {
+        maxZoom: 18,
+        tileSize: 512,
+        zoomOffset: -1,
+        attribution: '&copy; Mapbox & OpenStreetMap contributors'
+      }).addTo(map);
+
+      marker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(map);
+      marker.on('dragend', function () {
+        const latlng = marker.getLatLng();
+        updateLatLngInputs(latlng.lat, latlng.lng);
+      });
+    }
+
+    function updateLatLngInputs(lat, lng) {
+      document.getElementById("id_latitude").value = lat.toFixed(6);
+      document.getElementById("id_longitude").value = lng.toFixed(6);
+    }
+
+    function searchAddress() {
+      const address = document.getElementById("id_address").value;
+      if (!address) return alert("กรุณาใส่ที่อยู่ก่อน");
+
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxToken}&limit=1&language=th`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.features && data.features.length > 0) {
+            const [lng, lat] = data.features[0].center;
+            map.setView([lat, lng], 16);
+            marker.setLatLng([lat, lng]);
+            updateLatLngInputs(lat, lng);
+          } else {
+            alert("ไม่พบที่อยู่บนแผนที่ กรุณาตรวจสอบอีกครั้ง");
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert("เกิดข้อผิดพลาดในการค้นหาที่อยู่");
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", initMap);
+  </script>
 </body>
 </html>

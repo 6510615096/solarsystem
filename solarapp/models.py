@@ -15,7 +15,6 @@ class Role(models.Model):
         return self.name
 
 
-    
 class SolarPlant(models.Model):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='owned_plants')
@@ -24,6 +23,11 @@ class SolarPlant(models.Model):
     weather = models.CharField(max_length=100, blank=True, null=True)
     temperature = models.CharField(max_length=100, blank=True, null=True)
     address = models.TextField()
+
+    # ✅ เพิ่ม latitude และ longitude เพื่อเก็บพิกัด
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+
     invited_emails = models.TextField(blank=True, null=True)
     properties = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -31,7 +35,8 @@ class SolarPlant(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     roles = models.ManyToManyField(Role, blank=True, related_name='users')
@@ -42,7 +47,8 @@ class UserProfile(models.Model):
     
     def get_roles_display(self):
         return ", ".join([role.name for role in self.roles.all()])
-    
+
+
 class UploadedFile(models.Model):
     plant = models.ForeignKey('SolarPlant', on_delete=models.CASCADE, related_name='uploaded_files')
     file = models.FileField(upload_to='uploads/')
@@ -53,7 +59,5 @@ class UploadedFile(models.Model):
     time = models.TimeField(null=True, blank=True)
     zone = models.CharField(max_length=100, blank=True, null=True)
 
-
     def __str__(self):
         return f"{self.file.name} → {self.plant.name}"
-
